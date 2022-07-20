@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const oracledb = require('oracledb');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 
 
@@ -33,6 +34,8 @@ app.use(express.json());    //To Parse JSON data
 app.use(express.urlencoded({extended:true}));   // To Parse HTML form data and 'extended:true' => now it can parse query data
 app.use(express.static(path.join(__dirname,"public")));     //Setting up static Folders
 app.use(cookieParser(process.env.COOKIE_SECRET));  //To Parse Cookies
+app.use(cors());
+app.options('*',cors());
 
 
 
@@ -61,9 +64,10 @@ async function databaseConnection(){
             */
             user: process.env.ORACLE_USER,
             password: process.env.ORACLE_PASSWORD,
-            connectString: process.env.ORACLE_CONNECT_STRING
+            connectString: process.env.ORACLE_CONNECT_STRING,
         })
     }
+    return dbconnection;
 }
 
 
@@ -71,6 +75,13 @@ async function databaseConnection(){
 Routing Setup
 */
 app.use('/',loginRouter);
+app.use('/bal',async (req,res)=>{
+    let db = await databaseConnection();
+    let result = await db.execute('SELECT * FROM countries',[]);
+    console.log(result);
+    res.send(result.rows);
+    res.end();
+});
 
 
 
