@@ -33,6 +33,9 @@ App helpers
 app.use(express.json());    //To Parse JSON data
 app.use(express.urlencoded({extended:true}));   // To Parse HTML form data and 'extended:true' => now it can parse query data
 app.use(express.static(path.join(__dirname,"public")));     //Setting up static Folders
+app.use(express.static(path.join(__dirname,"public/js"))); 
+app.use(express.static(path.join(__dirname,"public/images"))); 
+app.use(express.static(path.join(__dirname,"public/css")));
 app.use(cookieParser(process.env.COOKIE_SECRET));  //To Parse Cookies
 app.use(cors());
 app.options('*',cors());
@@ -75,9 +78,9 @@ async function databaseConnection(){
 Routing Setup
 */
 app.use('/',loginRouter);
-app.use('/bal',async (req,res)=>{
+app.use('/test',async (req,res)=>{
     let db = await databaseConnection();
-    let result = await db.execute('SELECT * FROM countries',[]);
+    let result = await db.execute('SELECT * FROM employees',[]);
     console.log(result);
     res.send(result.rows);
     res.end();
