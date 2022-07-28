@@ -14,6 +14,7 @@ const cors = require('cors');
 Importing Internal Dependencies
 */
 const loginRouter = require('./router/loginRouter');
+const regRouter = require("./router/regRouter");
 const {notFoundHandler,errorHandler} = require('./middlewares/common-middlewares/errorHandler');
 
 /*
@@ -28,6 +29,11 @@ const app = express();
 
 
 /*
+To access the env variables by 'process.env.varname'
+*/
+dotenv.config();
+
+/*
 App helpers
 */
 app.use(express.json());    //To Parse JSON data
@@ -36,7 +42,9 @@ app.use(express.static(path.join(__dirname,"public")));     //Setting up static 
 app.use(express.static(path.join(__dirname,"public/js"))); 
 app.use(express.static(path.join(__dirname,"public/images"))); 
 app.use(express.static(path.join(__dirname,"public/css")));
-app.use(cookieParser(process.env.COOKIE_SECRET));  //To Parse Cookies
+app.use(cookieParser(process.env.JWT_SECRET));  //To Parse Cookies
+// console.log(process.env.PORT);
+// app.use(cookieParser('fndjkbfbj'));  //To Parse Cookies
 app.use(cors());
 app.options('*',cors());
 
@@ -49,10 +57,7 @@ Set view Engine
 app.set("view engine","ejs");
 
 
-/*
-To access the env variables by 'process.env.varname'
-*/
-dotenv.config();
+
 
 
 /*
@@ -78,12 +83,16 @@ async function databaseConnection(){
 Routing Setup
 */
 app.use('/',loginRouter);
+app.use('/reg',regRouter);
 app.use('/test',async (req,res)=>{
     let db = await databaseConnection();
     let result = await db.execute('SELECT * FROM employees',[]);
     console.log(result);
     res.send(result.rows);
     res.end();
+});
+app.use('/test1',(req,res)=>{
+    res.render('test');
 });
 
 
@@ -103,5 +112,10 @@ app.use(errorHandler);
 
 
 app.listen(process.env.PORT, ()=>{
-    console.log('LIstening....');
+    console.log('Listening....');
 })
+
+
+module.exports = {
+    databaseConnection
+}
