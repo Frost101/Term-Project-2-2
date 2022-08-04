@@ -51,7 +51,25 @@ let login = async function (email, password) {
     },
   });
   //   let gg = await result.json();
-  console.log(await result.json());
+  result = await result.json();
+  if(result.success){
+    localStorage.clear();
+    localStorage.setItem('EMAIL',result.EMAIL);
+    localStorage.setItem('DID',result.DID);
+    localStorage.setItem('FIRST_NAME',result.FIRST_NAME);
+    localStorage.setItem('LAST_NAME',result.LAST_NAME);
+
+    window.location.replace("http://localhost:4200/doctor/home");
+  }
+  else{
+      let alert = document.getElementById('alert');
+      let div = document.createElement('div');
+      div.innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Authentication Error!</strong> You should check in on some of those fields below.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+      alert.appendChild(div);
+  }
 };
 
 let button = document.getElementById("submitButton");

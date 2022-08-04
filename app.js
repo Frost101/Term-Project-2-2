@@ -15,6 +15,7 @@ Importing Internal Dependencies
 */
 const loginRouter = require('./router/loginRouter');
 const regRouter = require("./router/regRouter");
+const patientRouter = require("./router/patientRouter");
 const {notFoundHandler,errorHandler} = require('./middlewares/common-middlewares/errorHandler');
 
 /*
@@ -84,6 +85,7 @@ Routing Setup
 */
 app.use('/',loginRouter);
 app.use('/reg',regRouter);
+app.use('/patient',patientRouter);
 app.use('/test',async (req,res)=>{
     let db = await databaseConnection();
     let result = await db.execute('SELECT * FROM employees',[]);

@@ -126,8 +126,11 @@ async function doLoginPatient(req,res){
     }
     else {
         const userObject = {
-            email:result.rows[0].EMAIL,
-            role: "patient",
+            EMAIL:result.rows[0].EMAIL,
+            ROLE: "patient",
+            PID:result.rows[0].PID,
+            FIRST_NAME:result.rows[0].FIRST_NAME,
+            LAST_NAME:result.rows[0].LAST_NAME,
             success:true
         }
 

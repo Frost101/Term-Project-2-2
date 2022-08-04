@@ -138,6 +138,7 @@ let patientLoginInfo = {
         if(good) {
           if(patientLoginInfo.password === patientLoginInfo.retypePassword) {
             let d = new Date(patientLoginInfo.year, getMonthFromString(patientLoginInfo.month), patientLoginInfo.date, 0, 0, 0, 0);
+            patientLoginInfo.dob = d;
             d = getAge(d);
             patientLoginInfo.age = d;
             console.log(patientLoginInfo.age);
@@ -160,7 +161,7 @@ let login = async function (patientLoginInfo) {
   //   email,
   //   password,
   // };
-  let result = await fetch("http://localhost:4200/doLoginPatient", {
+  let result = await fetch("http://localhost:4200/reg/regPatient", {
     method: "POST",
     body: JSON.stringify(patientLoginInfo),
     headers: {
@@ -168,10 +169,12 @@ let login = async function (patientLoginInfo) {
     },
   });
   //   let gg = await result.json();
-  let msgJson = await result.json();
-  let msg = JSON.stringify(msgJson);
-  console.log(msg);
-  if (msg === '"Successful"') { window.location.replace("http://localhost:4200/test1"); }
+  result = await result.json();
+  if(result.success){
+    localStorage.clear();
+    confirm('Patient Has Been Successfully Added!');
+    window.location.replace("http://localhost:4200/loginPatient");
+  }
 };
 
 let button = document.getElementById("submitButton");

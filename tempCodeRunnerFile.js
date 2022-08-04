@@ -1,1 +1,1 @@
-app.use(cookieParser(process.env.COOKIE_SECRET)); 
+const path = require('path');
