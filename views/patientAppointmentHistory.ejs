@@ -5,15 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-   
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		
 		<link rel="stylesheet" href="css/styleDashboard.css">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-		<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-
   </head>
   <body>
+		
 		<div class="wrapper d-flex align-items-stretch after">
 			<nav id="sidebar" class="toggle-class-active">
 				<div class="custom-menu">
@@ -26,10 +26,10 @@
 		  		<h1><a class="logo">Health++ <span id = "setName" style="color:white"></span><span style="color:white">Patient Section</span></a></h1>
 				
 				<ul class="list-unstyled components mb-5 ">
-	          <li  class=" greenHover" ">
+	          <li class="greenHover" ">
 	            <a href="/patient/home"><span class="fa fa-home mr-3 active" style="color:white"></span>Home</a>
 	          </li>
-	          <li style="background-color:#049039" class="active agreenHover ">
+	          <li class="greenHover ">
 	              <a href="/patient/appointments"><span class="fa fa-user-md mr-3" style="color:white"></span>Book Appointments</a>
 	          </li>
 	          <li class="greenHover ">
@@ -41,7 +41,7 @@
 	          <li class="greenHover ">
               <a href="/patient/upcomingAppointments"><span class="fa fa-suitcase mr-3" style="color:white"></span>Upcoming Appointments</a>
 	          </li>
-	          <li class="greenHover ">
+	          <li style="background-color:#049039" class="active greenHover ">
               <a href="/patient/appointmentsHistory"><span class="fa fa-history mr-3" style="color:white"></span>Previous Appoinments</a>
 	          </li>
 	          <li class="greenHover ">
@@ -52,7 +52,18 @@
 				</li>
 	        </ul>
 			
-	
+				
+
+	        <!-- <div class="mb-5">
+						<h3 class="h6 mb-3">Subscribe for newsletter</h3>
+						<form action="#" class="subscribe-form">
+	            <div class="form-group d-flex">
+	            	<div class="icon"><span class="icon-paper-plane"></span></div>
+	              <input type="text" class="form-control" placeholder="Enter Email Address">
+	            </div>
+	          </form>
+					</div> -->
+
 	        <div class="footer" align="bottom">
 	        	<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Md. Sadik Hossain Shanto & Sabah Ahmed <i class="icon-heart" aria-hidden="true"></i>
@@ -63,78 +74,18 @@
     	</nav>
 
         <!-- Page Content  -->
-		
-      <div id="content" class="p-4 p-md-5 pt-5 " >
+      <div id="content" class="p-4 p-md-5 pt-5">
         <div class="container">
-			<form>
-				<div class="row">
-					<div class="col-sm-5" style="border-color:#098927;">
-						<label style="color: #098927" for="branch">Select Branch Name</label>
-						<select id = "branch" style="color: #098927;border-color: #098927;" value="" class="border-success form-control " id="branch">
-							<option selected disabled>Select</option>
-							<option value="Dhaka">Dhaka</option>
-							<option value="Rajshahi">Rajshahi</option>
-							<option value="Chattogram">Chattogram</option>
-							<option value="Khulna">Khulna</option>
-							<option value="Sylhet">Sylhet</option>
-							<option value="Rangpur">Rangpur</option>
-							<option value="Mymensingh">Mymensingh</option>
-							<option value="Barishal">Barishal</option>
-						  </select>
-					</div>
-					<div class="col-sm-5">
-						<label style="color: #098927" for="branch">Doctor's Speciality</label>
-						<select id="speciality" style="color: #098927" value="" class="form-control border-success" id="branch">
-							<option selected disabled>Select</option>
-							<option value="Medicine">Medicine</option>
-							<option value="Cancer">Cancer</option>
-							<option value="Cardiology">Cardiology</option>
-							<option value="Gynea">Gynea</option>
-							<option value="Kidney">Kidney</option>
-							<option value="Liver">Liver</option>
-							<option value="Child">Child</option>
-							<option value="Diabetes">Diabetes</option>
-							<option value="Neurology">Neurology</option>
-							<option value="Hematology">Hematology</option>
-							<option value="Dental">Dental</option>
-							<option value="Nutritionist">Nutritionist</option>
-							<option value="Eye">Eye</option>
-							<option value="ENT">ENT</option>
-							<option value="Psychiatrist">Psychiatrist</option>
-							<option value="Physician">Physician</option>
-						  </select>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-3">
-						<label style="color: #098927" for="branch"></label>
-						<button id="searchButton" onclick="search()" type="button" class ="btn btn-success form-control">Search</button>
-						
-					</div>
-				</div>
-				</form>
-				<div class="row">
-					<span> <p>            </p></span>
-					<span> <p>            </p></span>
-					<span> <p>            </p></span>
-				</div>
-				
-				<div id = "insert" class="row" style="overflow-y:scroll;max-height: 500px;"  >
-				</div>
-				
-				
+			
 		</div>
       </div>
-	 
-	</div>
-		
-	
+		</div>
 
     <script src="js/jqueryDashboard.min.js"></script>
     <script src="js/popperDashboard.js"></script>
     <script src="js/bootstrapDashboard.min.js"></script>
     <script src="js/mainDashboard.js"></script>
-	<script src="js/patientAppointments.js"></script>
+	<script src="js/patientAppointmentHistory.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
   </body>
   </body>

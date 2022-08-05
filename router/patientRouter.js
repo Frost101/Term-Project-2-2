@@ -10,7 +10,7 @@ const path = require('path');
 /*
 Importing Internal Dependencies
 */
-const {getPatientHome,getPatientAppointments} = require('../controller/patientController');
+const {getBookAppointment,getDoctorConfirm, getPatientHome,getPatientAppointments,getPatientAppointmentsHistory,getPatientHireAmbulance,getPatientHireNurse,getPatientTest,getPatientUpcomingAppointments,getDoctor,getPatientAppointmentConfirm} = require('../controller/patientController');
 const decorateHTMLResponse = require("../middlewares/common-middlewares/decorateHTMLResponse");
 
 
@@ -31,6 +31,17 @@ Routing Setup
 */
 router.get("/home",decorateHTMLResponse('Home Patient'),getPatientHome);
 router.get("/appointments",decorateHTMLResponse('Book Appointments'),getPatientAppointments);
+router.get("/appointmentsHistory",decorateHTMLResponse("Appointments History"),getPatientAppointmentsHistory);
+router.get("/ambulance",decorateHTMLResponse("Hire Ambulance"),getPatientHireAmbulance);
+router.get("/nurse",decorateHTMLResponse("Hire Nurse"),getPatientHireNurse);
+router.get("/test",decorateHTMLResponse("Test Results"),getPatientTest);
+router.get("/upcomingAppointments",decorateHTMLResponse("Upcoming Appointments"),getPatientUpcomingAppointments);
+router.get("/confirmAppointment",decorateHTMLResponse('Confirm Appointment'), getPatientAppointmentConfirm);
+router.post("/getDoctor",getDoctor);
+router.post("/getDoctorConfirm", getDoctorConfirm);
+router.post("/bookAppointment",getBookAppointment);
+
+
 
 
 /*

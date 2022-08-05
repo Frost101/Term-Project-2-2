@@ -28,6 +28,7 @@ async function execute(sql, binds){
         // Get a connection from the default pool
         connection = await startup();
         results = await connection.execute(sql, binds, options);
+        //console.log(results);
     } catch (err) {
         console.log("ERROR executing sql: " + err.message);
     } finally {

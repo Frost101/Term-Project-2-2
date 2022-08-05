@@ -117,7 +117,7 @@ async function doLoginPatient(req,res){
         password: req.body.password
     }
     let result = await database.execute(sql,binds);
-    console.log(result);
+    //console.log(result);
     if(result.rows.length != 1) {
         const userObject={
             success:false
