@@ -173,11 +173,6 @@ async function getDoctorConfirm(req,res){
 
 
 async function getBookAppointment(req,res){
-
-    console.log(req.body.DEID);
-    console.log(req.body.PID);
-    console.log(req.body.APPT_TIME);
-    console.log(req.body.APPT_DATE);
     const sql = `
     INSERT INTO APPOINTMENTS(APPTID, APPT_TIME, PID, DEID, APPT_DATE) VALUES('APPT_' || APPT_SEQ.NEXTVAL, :APPT_TIME, :PID, :DEID, TO_DATE(:APPT_DATE, 'YYYY-MM-DD'))
     `;
@@ -188,7 +183,7 @@ async function getBookAppointment(req,res){
         APPT_DATE:req.body.APPT_DATE
     };
     let result = await database.execute(sql, binds);
-
+    res.json("success");
 }
 
 /*

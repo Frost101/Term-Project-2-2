@@ -170,6 +170,10 @@ async function clicked(){
             },
           });
           result = await result.json();
+          if(result === 'success'){
+            alert('Booking Request has been completed.Please Wait for Approval...');
+            window.location.replace("http://localhost:4200/patient/home");
+          }
 
     }
     

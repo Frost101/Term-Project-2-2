@@ -17,6 +17,7 @@ const loginRouter = require('./router/loginRouter');
 const regRouter = require("./router/regRouter");
 const patientRouter = require("./router/patientRouter");
 const doctorRouter = require("./router/doctorRouter");
+const receptionistRouter = require("./router/receptionistRouter");
 const {notFoundHandler,errorHandler} = require('./middlewares/common-middlewares/errorHandler');
 
 /*
@@ -88,6 +89,7 @@ app.use('/',loginRouter);
 app.use('/reg',regRouter);
 app.use('/patient',patientRouter);
 app.use('/doctor',doctorRouter);
+app.use('/receptionist',receptionistRouter);
 app.use('/test',async (req,res)=>{
     let db = await databaseConnection();
     let result = await db.execute('SELECT * FROM employees',[]);
@@ -117,7 +119,7 @@ app.use(errorHandler);
 
 app.listen(process.env.PORT, ()=>{
     console.log('Listening....');
-})
+});
 
 
 module.exports = {
