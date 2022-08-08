@@ -11,7 +11,7 @@ const path = require('path');
 Importing Internal Dependencies
 */
 const decorateHTMLResponse = require("../middlewares/common-middlewares/decorateHTMLResponse");
-
+const {getDoctorHome,getDoctorPatientHistory,getDoctorEditPrescription,getUpcomingAppointments,getDoctorTestResults} = require('../controller/doctorController');
 /*
 Creating a router
 */
@@ -29,6 +29,13 @@ router.use(express.static(path.join(__dirname,"../public/css")));
 Routing Setup
 */
 // router.get("/home",decorateHTMLResponse('Home Doctor'),getDoctorHome);
+router.get('/home',decorateHTMLResponse('Doctor Home'),getDoctorHome);
+router.get('/patientHistory',decorateHTMLResponse('Patient History'),getDoctorPatientHistory);
+router.get('/editPrescription',decorateHTMLResponse('edit prescription'),getDoctorEditPrescription);
+router.get('/upcomingAppointments',decorateHTMLResponse('Upcoming Appointments'),getUpcomingAppointments);
+router.get('/testResults',decorateHTMLResponse('Test Results'),getDoctorTestResults);
+
+
 
 
 /*

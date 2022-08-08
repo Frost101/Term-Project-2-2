@@ -23,11 +23,11 @@ let email, password;
         event.preventDefault();
         if (form.email.checkValidity()) {
           email = document.getElementById("email");
-          console.log(email.value);
+          // console.log(email.value);
         }
         if (form.password.checkValidity()) {
           password = document.getElementById("password");
-          console.log(password.value);
+          // console.log(password.value);
         }
         if (form.email.checkValidity() && form.password.checkValidity()) {
           login(email.value, password.value);
@@ -55,10 +55,9 @@ let login = async function (email, password) {
   if(result.success){
     localStorage.clear();
     localStorage.setItem('EMAIL',result.EMAIL);
-    localStorage.setItem('DID',result.DID);
-    localStorage.setItem('FIRST_NAME',result.FIRST_NAME);
-    localStorage.setItem('LAST_NAME',result.LAST_NAME);
-
+    localStorage.setItem('EID',result.EID);
+    localStorage.setItem('NAME',result.NAME);
+    localStorage.setItem('HID',result.HID);
     window.location.replace("http://localhost:4200/doctor/home");
   }
   else{

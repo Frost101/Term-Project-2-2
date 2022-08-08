@@ -175,20 +175,47 @@ function getLoginDoctor(req, res, next) {
 
 async function doLoginDoctor(req, res) {
   const sql = `
-          SELECT *
-          FROM DOCTORS
-          WHERE EMAIL = :email
-          AND PASSWORD = :password`;
+  SELECT EID, FIRST_NAME ||' ' ||LAST_NAME NAME, GENDER, E.PHONE, E.EMAIL, HID, HOSPITAL_NAME, BRANCH, SPECIALITY, FEES, WID 
+FROM EMPLOYEES E 
+JOIN DOCTORS D USING (EID) 
+JOIN HOSPITALS H USING (HID) 
+WHERE E.EMAIL = :email 
+AND E.PASSWORD = :password
+    `;
   const binds = {
     email: req.body.email,
     password: req.body.password,
   };
   let result = await database.execute(sql, binds);
-  console.log(result);
+  //console.log(result);
   if (result.rows.length != 1) {
-    res.json("Bad Login");
+    const userObject = {
+      success: false,
+    };
+    res.json(userObject);
   } else {
-    res.json(result.rows);
+    const userObject = {
+      EMAIL: result.rows[0].EMAIL,
+      ROLE: "doctor",
+      EID: result.rows[0].EID,
+      NAME: result.rows[0].NAME,
+      HID: result.rows[0].HID,
+      success: true,
+    };
+
+    //generate token
+    const token = jwt.sign(userObject, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRY,
+    });
+
+    //set cookie
+    res.cookie(process.env.COOKIE_NAME, token, {
+      maxAge: process.env.JWT_EXPIRY,
+      httpOnly: true,
+      signed: true,
+    });
+    res.locals.loggedInUser = userObject;
+    res.json(userObject);
   }
 }
 
