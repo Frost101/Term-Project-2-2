@@ -1,92 +1,89 @@
-function settingName(){
-    let setName = document.getElementById('setName');
-    let firstName = localStorage.getItem('FIRST_NAME');
-    let lastName = localStorage.getItem('LAST_NAME')
-    setName.innerText = `Welcome ${firstName} ${lastName}`;
-    console.log(setName);
+function settingName() {
+  let setName = document.getElementById("setName");
+  let firstName = localStorage.getItem("FIRST_NAME");
+  let lastName = localStorage.getItem("LAST_NAME");
+  setName.innerText = `Welcome ${firstName} ${lastName}`;
+  console.log(setName);
 }
 
 settingName();
 
-
-async function getDoctor(){
-    let docInfo = {
-        EID:localStorage.getItem('EID')
-    };
-    let result = await fetch("http://localhost:4200/patient/getDoctorConfirm",{
-        method: "POST",
-        body: JSON.stringify(docInfo),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      result = await result.json();
-      console.log(result);
-      let div = document.getElementById('insert');
-      div.innerHTML="";
-      let tempCard = document.createElement('div');
-      let radioBox="";
-      for(let i=0;i<result.VIS_TIME.length;i++){
-        radioBox += `<div class="form-check">
+async function getDoctor() {
+  let docInfo = {
+    EID: localStorage.getItem("EID"),
+  };
+  let result = await fetch("http://localhost:4200/patient/getDoctorConfirm", {
+    method: "POST",
+    body: JSON.stringify(docInfo),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  result = await result.json();
+  console.log(result);
+  let div = document.getElementById("insert");
+  div.innerHTML = "";
+  let tempCard = document.createElement("div");
+  let radioBox = "";
+  for (let i = 0; i < result.VIS_TIME.length; i++) {
+    radioBox += `<div class="form-check">
         <input class="form-check-input" type="radio" name="radioButtonTime" value ="${result.VIS_TIME[i]}" id="${i}">
         <label class="form-check-label" for="${i}">
           ${result.VIS_TIME[i]}
         </label>
-      </div>`
-      }
-    let date = new Date();
-    let date1="";
-    let date2="";
-    let date3="";
-    const today = new Date();
-    date1 += (today.getFullYear()+"-");
-    today.setMonth(today.getMonth() + 1);
-    if(today.getMonth().toString().length == 1) {
-        date1 += ('0' + today.getMonth() + "-");
-    }
-    else {
-        date1 += (today.getMonth() + "-");
-    }
-    if(today.getDate().toString().length == 1) {
-        date1 += ('0' + today.getDate());
-    }
-    else {
-        date1 += (today.getDate());
-    }
+      </div>`;
+  }
+  let date = new Date();
+  let date1 = "";
+  let date2 = "";
+  let date3 = "";
 
-    let tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1); 
-    date2 += (tomorrow.getFullYear()+"-");
-    if(tomorrow.getMonth().toString().length == 1) {
-        date2 += ('0' + tomorrow.getMonth() + "-");
-    }
-    else {
-        date2 += (tomorrow.getMonth() + "-");
-    }
-    if(today.getDate().toString().length == 1) {
-        date2 += ('0' + tomorrow.getDate());
-    }
-    else {
-        date2 += (tomorrow.getDate());
-    }
+  let today = new Date();
+  date1 += today.getFullYear() + "-";
+  today.setMonth(today.getMonth() + 1);
+  if (today.getMonth().toString().length == 1) {
+    date1 += "0" + today.getMonth() + "-";
+  } else {
+    date1 += today.getMonth() + "-";
+  }
+  if (today.getDate().toString().length == 1) {
+    date1 += "0" + today.getDate();
+  } else {
+    date1 += today.getDate();
+  }
 
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    date3 += (tomorrow.getFullYear()+"-");
-    if(tomorrow.getMonth().toString().length == 1) {
-        date3 += ('0' + tomorrow.getMonth() + "-");
-    }
-    else {
-        date3 += (tomorrow.getMonth() + "-");
-    }
-    if(tomorrow.getDate().toString().length == 1) {
-        date3 += ('0' + tomorrow.getDate());
-    }
-    else {
-        date3 += (tomorrow.getDate());
-    }
+  let tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  date2 += tomorrow.getFullYear() + "-";
+  tomorrow.setMonth(tomorrow.getMonth() + 1);
+  if (tomorrow.getMonth().toString().length == 1) {
+    date2 += "0" + tomorrow.getMonth() + "-";
+  } else {
+    date2 += tomorrow.getMonth() + "-";
+  }
+  if (tomorrow.getDate().toString().length == 1) {
+    date2 += "0" + tomorrow.getDate();
+  } else {
+    date2 += tomorrow.getDate();
+  }
 
-    let radioBoxDate ="";
-    radioBoxDate += `<div class="form-check">
+  tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 2);
+  date3 += tomorrow.getFullYear() + "-";
+  tomorrow.setMonth(tomorrow.getMonth() + 1);
+  if (tomorrow.getMonth().toString().length == 1) {
+    date3 += "0" + tomorrow.getMonth() + "-";
+  } else {
+    date3 += tomorrow.getMonth() + "-";
+  }
+  if (tomorrow.getDate().toString().length == 1) {
+    date3 += "0" + tomorrow.getDate();
+  } else {
+    date3 += tomorrow.getDate();
+  }
+
+  let radioBoxDate = "";
+  radioBoxDate += `<div class="form-check">
     <input class="form-check-input" type="radio" name="radioButtonDate" value ="${date1}" id="1">
     <label class="form-check-label" for="1">
       ${date1}
@@ -107,9 +104,7 @@ async function getDoctor(){
   </label>
 </div>`;
 
-      
-
-      tempCard.innerHTML = `<div class="card text-white bg-success mb-1" style="max-width: 80%;">
+  tempCard.innerHTML = `<div class="card text-white bg-success mb-1" style="max-width: 80%;">
       <div class="card-header">Confirm Appointment</div>
       <div class="card-body">
         <div class = "row">
@@ -141,40 +136,36 @@ async function getDoctor(){
 
       </div>
     </div>`;
-      div.appendChild(tempCard);
-};
+  div.appendChild(tempCard);
+}
 
 getDoctor();
 
-
-async function clicked(){
-    let dateAp = document.querySelector('input[name="radioButtonDate"]:checked');
-    let timeAP = document.querySelector('input[name="radioButtonTime"]:checked');
-    if(dateAp===null || timeAP === null ){
-        alert('Select the Appointment Date And Time Properly');
+async function clicked() {
+  let dateAp = document.querySelector('input[name="radioButtonDate"]:checked');
+  let timeAP = document.querySelector('input[name="radioButtonTime"]:checked');
+  if (dateAp === null || timeAP === null) {
+    alert("Select the Appointment Date And Time Properly");
+  } else {
+    dateAp = dateAp.value;
+    timeAP = timeAP.value;
+    let docInfo = {
+      DEID: localStorage.getItem("EID"),
+      PID: localStorage.getItem("PID"),
+      APPT_TIME: timeAP,
+      APPT_DATE: dateAp,
+    };
+    let result = await fetch("http://localhost:4200/patient/bookAppointment", {
+      method: "POST",
+      body: JSON.stringify(docInfo),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    result = await result.json();
+    if (result === "success") {
+      alert("Booking Request has been completed.Please Wait for Approval...");
+      window.location.replace("http://localhost:4200/patient/home");
     }
-    else{
-        dateAp = dateAp.value ;
-        timeAP = timeAP.value ;
-        let docInfo = {
-            DEID:localStorage.getItem('EID'),
-            PID:localStorage.getItem('PID'),
-            APPT_TIME:timeAP,
-            APPT_DATE:dateAp
-        };
-        let result = await fetch("http://localhost:4200/patient/bookAppointment",{
-            method: "POST",
-            body: JSON.stringify(docInfo),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-          result = await result.json();
-          if(result === 'success'){
-            alert('Booking Request has been completed.Please Wait for Approval...');
-            window.location.replace("http://localhost:4200/patient/home");
-          }
-
-    }
-    
+  }
 }

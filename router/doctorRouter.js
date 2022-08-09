@@ -11,7 +11,9 @@ const path = require('path');
 Importing Internal Dependencies
 */
 const decorateHTMLResponse = require("../middlewares/common-middlewares/decorateHTMLResponse");
-const {getDoctorHome,getDoctorPatientHistory,getDoctorEditPrescription,getUpcomingAppointments,getDoctorTestResults} = require('../controller/doctorController');
+const {uploadPrescription,getTestNames,getSingleAppointment,getDoctorGivePrescription,getAppointments,getDoctorHome,getDoctorPatientHistory,getDoctorEditPrescription,getUpcomingAppointments,getDoctorTestResults} = require('../controller/doctorController');
+
+
 /*
 Creating a router
 */
@@ -34,6 +36,12 @@ router.get('/patientHistory',decorateHTMLResponse('Patient History'),getDoctorPa
 router.get('/editPrescription',decorateHTMLResponse('edit prescription'),getDoctorEditPrescription);
 router.get('/upcomingAppointments',decorateHTMLResponse('Upcoming Appointments'),getUpcomingAppointments);
 router.get('/testResults',decorateHTMLResponse('Test Results'),getDoctorTestResults);
+router.get('/givePrescription',decorateHTMLResponse('Give Prescription'),getDoctorGivePrescription);
+
+router.post('/getAppointments',getAppointments);
+router.post('/getSingleAppointment',getSingleAppointment);
+router.post('/testNames',getTestNames);
+router.post('/uploadPrescription',uploadPrescription);
 
 
 
