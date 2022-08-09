@@ -9,7 +9,7 @@ const path = require('path');
 /*
 Importing Internal Dependencies
 */
-const {getLabAssistantEditTests,getLabAssistantHome,getLabAssistantUpcomingTests}  = require('../controller/labAssistantController');
+const {getUploadTestResult,getSingleTest,getGiveTestResult,getTests,getLabAssistantEditTests,getLabAssistantHome,getLabAssistantUpcomingTests}  = require('../controller/labAssistantController');
 const decorateHTMLResponse = require("../middlewares/common-middlewares/decorateHTMLResponse");
 
 
@@ -33,6 +33,11 @@ Routing Setup
 router.get('/home',decorateHTMLResponse('Lab Assistant Home'),getLabAssistantHome);
 router.get('/upcomingTests',decorateHTMLResponse('Upcoming Tests'),getLabAssistantUpcomingTests);
 router.get('/editTests',decorateHTMLResponse('Edit Tests'),getLabAssistantEditTests);
+router.get('/giveTestResult',decorateHTMLResponse('Test Result'),getGiveTestResult);
+
+router.post('/getTests',getTests);
+router.post('/getSingleTest',getSingleTest);
+router.post('/uploadTestResult',getUploadTestResult);
 
 
 /*

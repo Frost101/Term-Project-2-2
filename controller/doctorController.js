@@ -96,7 +96,7 @@ async function getAppointments(req,res){
     const binds = {
         EID:req.body.EID
     };
-    console.log(binds.EID);
+    //console.log(binds.EID);
     let result = await database.execute(sql, binds);
     //console.log(result);
     res.json(result.rows);
