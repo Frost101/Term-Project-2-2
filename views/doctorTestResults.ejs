@@ -70,6 +70,37 @@
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5">
         <div class="container">
+
+			<div class="row">
+
+				<div class="col-sm-6">
+				<div class="mb-3 border-success" id ="phoneNumberDiv">
+					<label for="nid" class="form-label" style="color:#3ca507;"><b><i>Please Enter Patient's NID no:</i></b></label>
+					<input type="text" class="form-control border-success" id="nid" placeholder="12345678901"  value = "" required>
+					<div id = "error" style="display:none; color:crimson">
+						<b>Please Provide a valid NID no...</b> 
+					</div>
+				</div>
+				</div>
+				
+				<div class="col-sm-1">
+				</div>
+
+				</div>
+				<!--End of first row-->
+
+				<div class="row">
+					<div class="col-sm-3">
+						<button id="search" onclick="search()" type="button" class ="btn btn-success form-control">Search</button>
+					</div>
+				</div>
+				<!--End of Second Row-->
+				<p>   </p>
+				<p>   </p>
+				<p>   </p>
+				<div id = "insert" class="row" style="overflow-y:scroll;max-height: 500px;"  >
+				</div>
+				
 			
 		</div>
 		

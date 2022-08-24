@@ -43,7 +43,7 @@ ORDER BY APPT_DATE ASC
     };
     console.log(binds.HID);
     let result = await database.execute(sql, binds);
-    console.log(result);
+    //console.log(result);
     res.json(result.rows);
 }
 
@@ -74,7 +74,7 @@ async function getCancelAppointment(req,res){
         APPTID: req.body.APPTID
     };
     let result = await database.execute(sql, binds);
-    console.log(result);
+    //console.log(result);
     res.json("success");
 }
 
