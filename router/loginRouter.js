@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 /*
 Importing Internal Dependencies
 */
-const {logout, getLoginAll,getLoginDoctor,getLoginLabAssistant,getLoginReceiptionist, getLoginPatient,getLoginAdmin,doLoginPatient,doLoginAdmin,doLoginDoctor,doLoginReceptionist,doLoginLabAssistant} = require('../controller/logincontroller');
+const {getLoginAll,getLoginDoctor,getLoginLabAssistant,getLoginReceiptionist, getLoginPatient,getLoginAdmin,doLoginPatient,doLoginAdmin,doLoginDoctor,doLoginReceptionist,doLoginLabAssistant} = require('../controller/logincontroller');
 const decorateHTMLResponse = require("../middlewares/common-middlewares/decorateHTMLResponse");
 
 
@@ -37,7 +37,6 @@ router.post("/doLoginDoctor",doLoginDoctor);
 router.post("/doLoginReceptionist",doLoginReceptionist);
 router.post("/doLoginLabAssistant",doLoginLabAssistant);
 router.post("/doLoginAdmin",doLoginAdmin);
-router.delete("/logout",logout);
 
 /*
 Export

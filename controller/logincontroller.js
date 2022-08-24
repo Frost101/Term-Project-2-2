@@ -21,20 +21,44 @@ function getLoginAdmin(req, res, next) {
 
 async function doLoginAdmin(req, res) {
   const sql = `
-          SELECT *
-          FROM ADMIN
-          WHERE EMAIL = :email
-          AND PASSWORD = :password`;
+  SELECT AID, FIRST_NAME ||' '|| LAST_NAME AS NAME, PHONE, EMAIL 
+  FROM ADMIN  
+  WHERE EMAIL = :email
+  AND PASSWORD = :password  
+    `;
   const binds = {
     email: req.body.email,
     password: req.body.password,
   };
   let result = await database.execute(sql, binds);
-  console.log(result);
+  //console.log(result);
   if (result.rows.length != 1) {
-    res.json("Bad Login");
+    const userObject = {
+      success: false,
+    };
+    res.json(userObject);
   } else {
-    res.json(result.rows);
+    const userObject = {
+      EMAIL: result.rows[0].EMAIL,
+      ROLE: "admin",
+      AID: result.rows[0].AID,
+      NAME: result.rows[0].NAME,
+      success: true,
+    };
+
+    //generate token
+    const token = jwt.sign(userObject, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRY,
+    });
+
+    //set cookie
+    res.cookie(process.env.COOKIE_NAME, token, {
+      maxAge: process.env.JWT_EXPIRY,
+      httpOnly: true,
+      signed: true,
+    });
+    res.locals.loggedInUser = userObject;
+    res.json(userObject);
   }
 }
 
@@ -247,13 +271,7 @@ async function doLoginDoctor(req, res) {
   }
 }
 
-/*
-logout
-*/
 
-function logout(req, res) {
-  res.clearCookie(process.env.COOKIE_NAME);
-}
 
 /*
 Export
@@ -270,5 +288,4 @@ module.exports = {
   doLoginDoctor,
   doLoginLabAssistant,
   doLoginReceptionist,
-  logout,
 };

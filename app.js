@@ -19,6 +19,7 @@ const patientRouter = require("./router/patientRouter");
 const doctorRouter = require("./router/doctorRouter");
 const receptionistRouter = require("./router/receptionistRouter");
 const labAssistantRouter = require("./router/labAssistantRouter");
+const adminRouter = require("./router/adminRouter");
 const {notFoundHandler,errorHandler} = require('./middlewares/common-middlewares/errorHandler');
 
 /*
@@ -84,6 +85,14 @@ async function databaseConnection(){
 
 
 /*
+logout
+*/
+function logout(req, res) {
+    res.clearCookie(process.env.COOKIE_NAME);
+    res.render('loginAll');
+  }
+
+/*
 Routing Setup
 */
 app.use('/',loginRouter);
@@ -92,6 +101,8 @@ app.use('/patient',patientRouter);
 app.use('/doctor',doctorRouter);
 app.use('/receptionist',receptionistRouter);
 app.use('/labAssistant',labAssistantRouter);
+app.use('/admin',adminRouter);
+app.delete('/logout',logout);
 app.use('/test',async (req,res)=>{
     let db = await databaseConnection();
     let result = await db.execute('SELECT * FROM employees',[]);

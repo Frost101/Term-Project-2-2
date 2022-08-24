@@ -55,10 +55,8 @@ let login = async function (email, password) {
   if(result.success){
     localStorage.clear();
     localStorage.setItem('EMAIL',result.EMAIL);
-    localStorage.setItem('PID',result.PID);
-    localStorage.setItem('FIRST_NAME',result.FIRST_NAME);
-    localStorage.setItem('LAST_NAME',result.LAST_NAME);
-
+    localStorage.setItem('AID',result.AID);
+    localStorage.setItem('NAME',result.NAME);
     window.location.replace("http://localhost:4200/admin/home");
   }
   else{
