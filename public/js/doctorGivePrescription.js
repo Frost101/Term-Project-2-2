@@ -8,6 +8,8 @@ async function logout(){
 
 let testStr = "";
 let result = null;
+let testArr = [];
+let medArr = [];
 
 function settingName(){
     let setName = document.getElementById('setName');
@@ -44,7 +46,11 @@ async function search(){
 search();
 
 async function uploadPrescription(){
-  let medicines = document.getElementById('medicines').value;
+  let meds = "";
+  for(let i=0;i<medArr.length;i++){
+    meds += `${medArr[i]}</br>`;
+  }
+
   let advice = document.getElementById('advice').value;
   let remarks = document.getElementById('remarks').value;
   let bed = document.getElementById('bedRequired').value;
@@ -54,7 +60,7 @@ async function uploadPrescription(){
   // console.log(remarks);
   // console.log(bed);
 
-  if(medicines.trim() === "" || advice.trim() === "" || remarks.trim() === "" || bed.trim() === ""){
+  if(meds.trim() === "" || advice.trim() === "" || remarks.trim() === "" || bed.trim() === ""){
     alert('Please Fill up the medicines,advice,remarks,bed assigned fields properly');
   }
   else{
@@ -65,7 +71,7 @@ async function uploadPrescription(){
         APPTID:result[0].APPTID,
         REMARKS:remarks,
         ADVICE:advice,
-        MEDICINES:medicines,
+        MEDICINES:meds,
         BED:bed
       }
       let temp = await fetch("http://localhost:4200/doctor/uploadPrescription", {
@@ -111,6 +117,69 @@ async function getTestNames(){
 
 
 
+function removeMed(el) {
+  var element = el;
+  let index = medArr.indexOf(element.innerText);
+  medArr.splice(index,1);
+  console.log(medArr);
+  element.remove();
+}
+
+
+
+function addMedicines(){
+  let selectedMedicines = document.getElementById('selectedMedicines');
+  selectedMedicines.style.display = "block";
+  let medicine = document.getElementById('medicine').value;
+  let time = "(";
+  if(document.getElementById('Breakfast').checked){
+    time += ` "${document.getElementById('Breakfast').value}" `;
+  }
+  if(document.getElementById('Lunch').checked){
+    time += ` "${document.getElementById('Lunch').value}" `;
+  }
+  if(document.getElementById('Dinner').checked){
+    time += `"${document.getElementById('Dinner').value}"`;
+  }
+  time +=")"
+
+  let days = document.getElementById('days').value;
+  medicine += time;
+  medicine += ` (For ${days} days) `;
+  medArr.push(medicine);
+  console.log(medArr);
+  selectedMedicines.innerHTML += `<p class="mouse" onclick="removeMed(this)">${medicine}</p>`;
+
+  document.getElementById('Breakfast').checked = false;
+  document.getElementById('Lunch').checked = false;
+  document.getElementById('Dinner').checked = false;
+  document.getElementById('medicine').value = "";
+  document.getElementById('days').value = "";
+
+}
+
+
+function removeTest(el) {
+  var element = el;
+  let index = medArr.indexOf(element.innerText);
+  testArr.splice(index,1);
+  console.log(testArr);
+  element.remove();
+}
+
+function addTest(ref) {
+  testArr.push(ref.innerText);
+  //console.log(testArr);
+  let parent = document.getElementById(ref.innerText).parentElement;
+  let child = document.getElementById(ref.innerText);
+  parent.removeChild(child);
+  let selectedTests = document.getElementById('selectedTests');
+  selectedTests.style.display = "block"
+  selectedTests.innerHTML += `<p class="mouse" onclick="removeTest(this)">${ref.innerText}</p>`;
+}
+
+
+
 async function test(result) {
     let div1 = document.getElementById("insert");
     div1.innerHTML="";
@@ -135,9 +204,11 @@ async function test(result) {
           APPT_TIME: ${result[i].APPT_TIME}</br>
           APPT_DATE: ${result[i].APPT_DATE}</br>
           </p>
-          <label for="#"><b>Selected Tests</b></label>
-          <div style="color:white" id = "selectedTests">
+
+          <div style="color:white;display:none" id = "selectedTests">
+            <b style="color:black"><i>Selected Tests(Click On The Test Name To Remove)</b></i>
           </div>
+          <label for="#"><b>Required Tests</b></label>
           <form action="#0">
             
           
@@ -149,10 +220,45 @@ async function test(result) {
           </ul>
 
 
-            <label for="medicines"><b>Required Medicinies</b></label>
-            <div class="grow-wrap">
-                <textarea name="text" placeholder="1.Medicine_Name(After breakfast-Before Lunch-After Dinner : For n Days)" id="medicines" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+            <div style="color:white;display:none" id = "selectedMedicines">
+             <b style="color:black"><i>Selected Medicines(Click On The Medicine Name To Remove)</b></i>
             </div>
+
+            <label for="brow"><b>Required Medicines</b></label></br>
+            <input list="brow" id = "medicine">
+            <datalist id="brow">
+              <option value="Internet Explorer">
+              <option value="Firefox">
+              <option value="Chrome">
+              <option value="Opera">
+              <option value="Safari">
+            </datalist> 
+            <p style="color:white">Take After</p>
+            <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" value="Breakfast" id="Breakfast">
+            <label class="form-check-label" for="Breakfast">Breakfast</label></br>
+            <input class="form-check-input" type="checkbox" value="Lunch" id="Lunch">
+            <label class="form-check-label" for="Lunch">Lunch</label></br>
+            <input class="form-check-input" type="checkbox" value="Dinner" id="Dinner">
+            <label class="form-check-label" for="Dinner">Dinner</label>
+            </div>
+
+            <div class="row">
+              <div class = "col-sm-4">
+                <label class="form-check-label" for="days" style="color:white">For(Days)</label>
+                <input type="number" class="form-control" id="days" aria-describedby="days">
+              </div>
+              <div class = "col-sm-5">
+              </br>
+                <button type="button" onclick="addMedicines()" class="btn btn-danger">Add Medicine</button>
+              </div>
+            </div>
+            
+
+            
+                      
+            </br>
+            </br>
 
             <label for="remarks"><b>Remarks</b></label>
             <div class="grow-wrap">
@@ -188,17 +294,7 @@ async function test(result) {
 
   }
 
-  let testArr = [];
-  function addTest(ref) {
-    testArr.push(ref.innerText);
-    console.log(testArr);
-    let parent = document.getElementById(ref.innerText).parentElement;
-    let child = document.getElementById(ref.innerText);
-    parent.removeChild(child);
-    let selectedTests = document.getElementById('selectedTests');
-    selectedTests.innerHTML="";
-    selectedTests.innerText = testArr;
-  }
+
 
   async function myFunction() {
     // Declare variables

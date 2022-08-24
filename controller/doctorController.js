@@ -45,7 +45,7 @@ async function getTestNames(req,res){
     const binds = {
     };
     let result = await database.execute(sql, binds);
-    console.log(result);
+    //console.log(result);
     res.json(result.rows);
 }
 
@@ -73,7 +73,7 @@ async function uploadPrescription(req,res){
             TEST_NAME:testArr[i]
         }
         result = await database.execute(sql, binds2);
-        console.log(result);
+        //console.log(result);
     }
 
     sql=`INSERT INTO APPT_MEDS(APPTID, MEDNAME) VALUES(:APPTID, :MEDNAME)`;
@@ -82,7 +82,7 @@ async function uploadPrescription(req,res){
         MEDNAME:req.body.MEDICINES
     }
     result = await database.execute(sql, binds3);
-    console.log(result);
+    //console.log(result);
     res.json("success");
 }
 
