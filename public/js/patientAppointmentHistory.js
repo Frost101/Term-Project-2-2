@@ -51,7 +51,7 @@ function test(result) {
     for (i = 0; i < result.length; i++) {
       let divTemp = document.createElement("div");
       let src ;
-      divTemp.innerHTML = `<div class="card mb-3 bg-success" style="max-width: 800px;">
+      divTemp.innerHTML = `<div class="card mb-3 bg-success" style="max-width: 950px;">
       <div class="row g-0">
         <div class="col-md-4">
         <img src="images/editPrescription.png" class="img-fluid rounded-start" height="50px" width="200px" alt="...">

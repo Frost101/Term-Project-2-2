@@ -325,6 +325,66 @@ async function getSingleTestResult(req,res){
   res.json(result.rows);
 }
 
+
+
+async function getAmbulanceType(req,res){
+  const sql = `
+    SELECT DISTINCT AMB_TYPE FROM AMBULANCES
+  `;
+  const binds = {
+      
+  };
+  let result = await database.execute(sql, binds);
+  //console.log(result);
+  res.json(result.rows);
+}
+
+
+async function getBranch(req,res){
+  const sql = `
+  SELECT DISTINCT BRANCH FROM HOSPITALS
+  `;
+  const binds = {
+      
+  };
+  let result = await database.execute(sql, binds);
+  //console.log(result);
+  res.json(result.rows);
+}
+
+
+async function getAmbulances(req,res){
+  const sql = `
+    SELECT AMB_TYPE, AMB_MANAGER_NAME, AMB_PHONE, HOSPITAL_NAME, BRANCH 
+    FROM AMB_HOS 
+    JOIN HOSPITALS USING(HID) 
+    WHERE BRANCH = :BRANCH 
+    AND AMB_TYPE = :AMB_TYPE
+  `;
+  const binds = {
+      BRANCH:req.body.BRANCH,
+      AMB_TYPE:req.body.AMB_TYPE
+  };
+  let result = await database.execute(sql, binds);
+  //console.log(req.body.BRANCH);
+  //console.log(req.body.AMB_TYPE);
+  //console.log(result);
+  res.json(result.rows);
+}
+
+
+async function getSpeciality(req,res){
+  const sql = `
+    SELECT DISTINCT SPECIALITY FROM DOCTORS
+  `;
+  const binds = {};
+  let result = await database.execute(sql, binds);
+  //console.log(req.body.BRANCH);
+  //console.log(req.body.AMB_TYPE);
+  //console.log(result);
+  res.json(result.rows);
+}
+
 /*
 Export
 */
@@ -346,5 +406,9 @@ module.exports = {
   getAppointmentHistory,
   getSinglePrescription,
   getTestResultHistory,
-  getSingleTestResult
+  getSingleTestResult,
+  getAmbulanceType,
+  getBranch,
+  getAmbulances,
+  getSpeciality
 };
