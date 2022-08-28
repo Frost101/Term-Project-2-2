@@ -10,7 +10,7 @@ const path = require('path');
 /*
 Importing Internal Dependencies
 */
-const {getConfirmAppointment ,getCancelAppointment, getAppointments, getReceptionistApproveAppointments, getReceptionistHome} = require('../controller/receptionistController');
+const {getReceptionistBloodGiveaway,getReceptionistAddBlood,getReceptionistBloodBank,getConfirmAppointment ,getCancelAppointment, getAppointments, getReceptionistApproveAppointments, getReceptionistHome} = require('../controller/receptionistController');
 const decorateHTMLResponse = require("../middlewares/common-middlewares/decorateHTMLResponse");
 
 
@@ -33,6 +33,9 @@ Routing Setup
 */
 router.get("/home",decorateHTMLResponse('Home Receptionist'),getReceptionistHome);
 router.get("/approveAppointments",decorateHTMLResponse('Approve Appointments'),getReceptionistApproveAppointments);
+router.get("/bloodBank",decorateHTMLResponse("Blood Bank"),getReceptionistBloodBank);
+router.get("/addBlood",decorateHTMLResponse("Add Blood"),getReceptionistAddBlood);
+router.get("/giveaway",decorateHTMLResponse("Blood Giveaway"),getReceptionistBloodGiveaway);
 
 router.post('/getAppointments',getAppointments);
 router.post('/confirmAppointment',getConfirmAppointment);

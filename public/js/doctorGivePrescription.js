@@ -212,7 +212,7 @@ async function test(result) {
           <form action="#0">
             
           
-          <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search And Click on required tests">
+          <input type="text" style="border-radius: 5px;" id="myInput" onkeyup="myFunction()" placeholder="Search And Click on required tests">
 
           
           <ul id="myUL">
@@ -225,7 +225,7 @@ async function test(result) {
             </div>
 
             <label for="brow"><b>Required Medicines</b></label></br>
-            <input list="brow" id = "medicine">
+            <input list="brow" style="border-radius: 5px;"  id = "medicine">
             <datalist id="brow">
               <option value="Internet Explorer">
               <option value="Firefox">
@@ -262,12 +262,12 @@ async function test(result) {
 
             <label for="remarks"><b>Remarks</b></label>
             <div class="grow-wrap">
-                <textarea name="text" placeholder="Remarks" id="remarks" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                <textarea name="text" style="border-radius: 5px;"  placeholder="Remarks" id="remarks" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
             </div>
 
             <label for="advice"><b>Advice</b></label>
             <div class="grow-wrap">
-                <textarea name="text" placeholder="Advice" id="advice" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+                <textarea name="text" style="border-radius: 5px;"  placeholder="Advice" id="advice" onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
             </div>
 
             <label for="bedRequired"><b>Assigned to bed?</b></label>

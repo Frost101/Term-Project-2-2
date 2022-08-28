@@ -16,6 +16,18 @@ function getReceptionistApproveAppointments(req,res,next){
     res.render('receptionistApproveAppointments')
 }
 
+function getReceptionistBloodBank(req,res,next){
+    res.render('receptionistBloodBank');
+}
+
+function getReceptionistAddBlood(req,res,next){
+    res.render('receptionistAddBlood');
+}
+
+function getReceptionistBloodGiveaway(req,res,next){
+    res.render('receptionistBloodGiveaway');
+}
+
 async function getAppointments(req,res){
     const sql = `
     SELECT APPTID, TO_CHAR(APPT_DATE) AS APPT_DATE, APPT_TIME, P.FIRST_NAME ||' '|| P.LAST_NAME PATIENT_NAME, T2.FIRST_NAME ||' '||T2.LAST_NAME DOCTOR_NAME, SPECIALITY ,DONE, REMARKS, ADVICE, ROOM_REQ, FEES, WID 
@@ -78,6 +90,7 @@ async function getCancelAppointment(req,res){
     res.json("success");
 }
 
+
 /*
 Export
 */
@@ -86,5 +99,8 @@ module.exports = {
     getReceptionistApproveAppointments,
     getAppointments,
     getConfirmAppointment,
-    getCancelAppointment
+    getCancelAppointment,
+    getReceptionistBloodBank,
+    getReceptionistAddBlood,
+    getReceptionistBloodGiveaway
 }

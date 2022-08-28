@@ -22,8 +22,8 @@ function getRegDoctor(req,res,next){
 /*
 For Rendering Reg Page For Receiptionist
 */
-function getRegReceiptionist(req,res,next){
-    res.render('regReceiptionist');
+function getRegReceptionist(req,res,next){
+    res.render('regReceptionist');
 }
 
 /*
@@ -33,21 +33,20 @@ function getRegPatient(req,res,next){
     res.render('regPatient');
 }
 
+/*
+For Rendering Reg Page For Lab Assistant
+*/
+function getRegLabAssistant(req,res,next){
+    res.render('regLabAssistant');
+}
+
+
 async function doRegPatient(req,res){
-    console.log(req.body);
-    console.log(req.body.dob);
-    console.log(req.body.password);
     const sql = `
-        INSERT INTO PATIENTS
-        VALUES(:nid, :firstName, :lastName, TO_DATE('17/10/2000', 'DD/MM/YYYY'), :age, :phone, :email, :password)`;
+
+    `;
     const binds = {
-        nid: req.body.nid,
-        firstName: req.body.firstName,
-        lastName:req.body.lastName,
-        age:req.body.age,
-        phone:req.body.phoneNumber,
-        email:req.body.email,
-        password:req.body.password
+        
     }
 
     let result = await database.execute(sql,binds);
@@ -58,18 +57,64 @@ async function doRegPatient(req,res){
     res.json(userObject);
 }
 
-/*
-For Rendering Reg Page For Lab Assistant
-*/
-function getRegLabAssistant(req,res,next){
-    res.render('regDoctor');
+
+async function doRegDoctor(req,res){
+    const sql = `
+
+    `;
+    const binds = {
+        
+    }
+
+    let result = await database.execute(sql,binds);
+    console.log(result);
+    const userObject = {
+        success:true
+    }
+    res.json(userObject);
 }
+
+async function doRegLabAssistant(req,res){
+    const sql = `
+
+    `;
+    const binds = {
+        
+    }
+
+    let result = await database.execute(sql,binds);
+    console.log(result);
+    const userObject = {
+        success:true
+    }
+    res.json(userObject);
+}
+
+async function doRegReceptionist(req,res){
+    const sql = `
+
+    `;
+    const binds = {
+        
+    }
+
+    let result = await database.execute(sql,binds);
+    console.log(result);
+    const userObject = {
+        success:true
+    }
+    res.json(userObject);
+}
+
 
 
 module.exports={
     getRegDoctor,
     getRegLabAssistant,
     getRegPatient,
-    getRegReceiptionist,
-    doRegPatient
+    getRegReceptionist,
+    doRegPatient,
+    doRegDoctor,
+    doRegLabAssistant,
+    doRegReceptionist
 }
