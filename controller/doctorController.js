@@ -5,40 +5,40 @@
 const database = require("../database/database");
 
 
-function getDoctorHome(req,res,next){
+function getDoctorHome(req, res, next) {
     res.render('doctorHome');
 }
 
-function getDoctorPatientHistory(req,res,next){
+function getDoctorPatientHistory(req, res, next) {
     res.render('doctorPatientHistory');
 }
 
-function getDoctorEditPrescription(req,res,next){
+function getDoctorEditPrescription(req, res, next) {
     res.render('doctorEditPrescription');
 }
 
-function getUpcomingAppointments(req,res,next){
+function getUpcomingAppointments(req, res, next) {
     res.render('doctorUpAppointments');
 }
 
-function getDoctorTestResults(req,res,next){
+function getDoctorTestResults(req, res, next) {
     res.render('doctorTestResults');
 }
 
-function getDoctorGivePrescription(req,res,next){
+function getDoctorGivePrescription(req, res, next) {
     res.render('doctorGivePrescription');
 }
 
-function getDoctorPatientPrescription(req,res,next){
+function getDoctorPatientPrescription(req, res, next) {
     res.render('doctorPatientPrescription');
 }
 
-function getDoctorSingleTestResult(req,res,next){
+function getDoctorSingleTestResult(req, res, next) {
     res.render('doctorSingleTestResult');
 }
 
-async function getTestNames(req,res){
-    const sql=`
+async function getTestNames(req, res) {
+    const sql = `
     SELECT TEST_NAME
     FROM TESTS
     `;
@@ -49,45 +49,46 @@ async function getTestNames(req,res){
     res.json(result.rows);
 }
 
-async function uploadPrescription(req,res){
-    let sql=`UPDATE APPOINTMENTS
+async function uploadPrescription(req, res) {
+    let sql = `
+    UPDATE APPOINTMENTS
     SET DONE = 'Y',
-     REMARKS = :REMARKS,
-     ADVICE = :ADVICE,
+    REMARKS = :REMARKS,
+    ADVICE = :ADVICE,
     ROOM_REQ = :ROOM_REQ
     WHERE APPTID = :APPTID`;
     let binds = {
-        APPTID:req.body.APPTID,
-        REMARKS:req.body.REMARKS,
-        ADVICE:req.body.ADVICE,
-        ROOM_REQ:req.body.BED
+        APPTID: req.body.APPTID,
+        REMARKS: req.body.REMARKS,
+        ADVICE: req.body.ADVICE,
+        ROOM_REQ: req.body.BED
     }
     let result = await database.execute(sql, binds);
     console.log(result);
     let testArr = req.body.TESTARR;
     console.log(testArr);
-    for(let i=0; i<testArr.length; i++){
-        sql=`INSERT INTO APPT_TESTS(APPTID, TEST_NAME) VALUES(:APPTID, :TEST_NAME)`;
+    for (let i = 0; i < testArr.length; i++) {
+        sql = `INSERT INTO APPT_TESTS(APPTID, TEST_NAME) VALUES(:APPTID, :TEST_NAME)`;
         let binds2 = {
-            APPTID:req.body.APPTID,
-            TEST_NAME:testArr[i]
+            APPTID: req.body.APPTID,
+            TEST_NAME: testArr[i]
         }
         result = await database.execute(sql, binds2);
         //console.log(result);
     }
 
-    sql=`INSERT INTO APPT_MEDS(APPTID, MEDNAME) VALUES(:APPTID, :MEDNAME)`;
-    let binds3={
-        APPTID:req.body.APPTID,
-        MEDNAME:req.body.MEDICINES
+    sql = `INSERT INTO APPT_MEDS(APPTID, MEDNAME) VALUES(:APPTID, :MEDNAME)`;
+    let binds3 = {
+        APPTID: req.body.APPTID,
+        MEDNAME: req.body.MEDICINES
     }
     result = await database.execute(sql, binds3);
     //console.log(result);
     res.json("success");
 }
 
-async function getAppointments(req,res){
-    const sql=`
+async function getAppointments(req, res) {
+    const sql = `
     SELECT APPTID, APPT_TIME, TO_CHAR(APPT_DATE,'YYYY-MM-DD') APPT_DATE, PID, P.FIRST_NAME ||' ' ||P.LAST_NAME PATIENT_NAME, P.PHONE, GET_AGE(P.DOB) AGE, P.BLOOD_GROUP 
     FROM 
     (SELECT * 
@@ -96,13 +97,14 @@ async function getAppointments(req,res){
     DEID = :EID 
     AND REID IS NOT NULL 
     AND DONE = 'N' 
-    AND APPT_DATE >= TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'),'YYYY-MM-DD') 
-    ORDER BY APPT_DATE ASC) T1 
+    AND APPT_DATE = TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM-DD'),'YYYY-MM-DD') 
+    ) T1 
     JOIN  
     PATIENTS P USING (PID)
+    ORDER BY APPTID ASC
     `;
     const binds = {
-        EID:req.body.EID
+        EID: req.body.EID
     };
     //console.log(binds.EID);
     let result = await database.execute(sql, binds);
@@ -110,8 +112,8 @@ async function getAppointments(req,res){
     res.json(result.rows);
 }
 
-async function getSingleAppointment(req,res){
-    const sql=`
+async function getSingleAppointment(req, res) {
+    const sql = `
     SELECT APPTID, APPT_TIME, TO_CHAR(APPT_DATE,'YYYY-MM-DD') APPT_DATE, PID, P.FIRST_NAME ||' '|| P.LAST_NAME PATIENT_NAME, P.PHONE, GET_AGE(P.DOB) AGE, P.BLOOD_GROUP, DONE, REMARKS, ADVICE, ROOM_REQ 
     FROM 
     (SELECT * 
@@ -122,31 +124,40 @@ async function getSingleAppointment(req,res){
     PATIENTS P USING (PID)
     `;
     const binds = {
-        APPTID:req.body.APPTID
+        APPTID: req.body.APPTID
     };
-    console.log(binds.APPTID);
+    //console.log(binds.APPTID);
     let result = await database.execute(sql, binds);
-    console.log(result);
+    //console.log(result);
     res.json(result.rows);
 }
 
 
-async function getAppointmentHistory(req,res){
-    const sql = `SELECT DISTINCT APPTID, TO_CHAR(APPT_DATE,'DD-MON-YYYY') APPT_DATE, APPT_TIME, FIRST_NAME||' '||LAST_NAME DOCTOR_NAME, SPECIALITY, GET_DOC_DEGREES(DEID) DEGREES, ADVICE, REMARKS, ROOM_REQ, HOSPITAL_NAME, BRANCH
+async function getAppointmentHistory(req, res) {
+    const sql = `
+    SELECT DISTINCT
+	APPTID,
+	TO_CHAR( APPT_DATE, 'DD-MON-YYYY' ) APPT_DATE,
+	APPT_TIME,
+	FIRST_NAME || ' ' || LAST_NAME DOCTOR_NAME,
+	WARD_NAME SPECIALITY,
+	GET_DOC_DEGREES ( DEID ) DEGREES,
+	ADVICE,
+	REMARKS,
+	ROOM_REQ,
+	HOSPITAL_NAME,
+	BRANCH 
     FROM
-    (SELECT *
-    FROM APPOINTMENTS
-    WHERE PID = :PID
-    AND REID IS NOT NULL
-    AND DONE = 'Y'
-    ORDER BY APPT_DATE DESC, APPTID DESC) T1
-    JOIN EMPLOYEES ON (EID = DEID)
-    JOIN DOCTORS USING (EID)
-    JOIN DOC_DEGREES USING (EID)
-    JOIN HOSPITALS USING (HID)`;
-  
+	( SELECT * FROM APPOINTMENTS WHERE PID = : PID AND REID IS NOT NULL AND DONE = 'Y'  ) T1
+	JOIN EMPLOYEES ON ( EID = DEID )
+	JOIN DOCTORS USING ( EID )
+	JOIN DOC_DEGREES USING ( EID )
+	JOIN HOSPITALS USING ( HID )
+    ORDER BY APPT_DATE DESC, APPTID DESC
+    `;
+
     const binds = {
-      PID:req.body.PID
+        PID: req.body.PID
     }
     //console.log(req.body.PID);
     let result = await database.execute(sql, binds);
@@ -154,80 +165,135 @@ async function getAppointmentHistory(req,res){
     res.json(result.rows);
 }
 
-
-async function getSinglePrescription(req,res){
+// need to handle medname fetch [easy fix remove foreign key constraint from appt_meds i guess]
+async function getSinglePrescription(req, res) {
     const sql = `
-    SELECT DISTINCT APPTID, TO_CHAR(APPT_DATE,'DD-MON-YYYY') APPT_DATE, APPT_TIME, E.FIRST_NAME||' '||E.LAST_NAME DOCTOR_NAME, SPECIALITY, GET_DOC_DEGREES(DEID) DEGREES, FEES, E.PHONE DOCTOR_PHONE, E.EMAIL DOCTOR_EMAIL, P.FIRST_NAME||' '||P.LAST_NAME PATIENT_NAME, GET_AGE(P.DOB) PATIENT_AGE, P.BLOOD_GROUP, P.PHONE PATIENT_PHONE, GET_TEST_NAMES(APPTID) TEST_NAMES, MEDNAME, REMARKS, ADVICE, ROOM_REQ, HOSPITAL_NAME, BRANCH, H.PHONE HOSPITAL_PHONE, H.EMAIL HOSPITAL_EMAIL 
-    FROM 
-    (SELECT * 
-    FROM APPOINTMENTS 
-    WHERE APPTID = :APPT_ID) T1 
-    JOIN PATIENTS P USING (PID) 
-    JOIN APPT_MEDS USING (APPTID) 
-    JOIN EMPLOYEES E ON (EID = DEID) 
-    JOIN DOCTORS D USING (EID) 
-    JOIN DOC_DEGREES DD USING (EID) 
-    JOIN HOSPITALS H USING (HID)
+    SELECT DISTINCT
+	APPTID,
+	TO_CHAR( APPT_DATE, 'DD-MON-YYYY' ) APPT_DATE,
+	APPT_TIME,
+	E.FIRST_NAME || ' ' || E.LAST_NAME DOCTOR_NAME,
+	WARD_NAME SPECIALITY,
+	GET_DOC_DEGREES ( DEID ) DEGREES,
+	FEES,
+	E.PHONE DOCTOR_PHONE,
+	E.EMAIL DOCTOR_EMAIL,
+	P.FIRST_NAME || ' ' || P.LAST_NAME PATIENT_NAME,
+	GET_AGE ( P.DOB ) PATIENT_AGE,
+	P.BLOOD_GROUP,
+	P.PHONE PATIENT_PHONE,
+	GET_TEST_NAMES ( APPTID ) TEST_NAMES,
+	MEDNAME,
+	REMARKS,
+	ADVICE,
+	ROOM_REQ,
+	HOSPITAL_NAME,
+	BRANCH,
+	H.PHONE HOSPITAL_PHONE,
+	H.EMAIL HOSPITAL_EMAIL 
+    FROM
+	( SELECT * FROM APPOINTMENTS WHERE APPTID = :APPT_ID ) T1
+	JOIN PATIENTS P USING ( PID )
+	JOIN APPT_MEDS USING ( APPTID )
+	JOIN EMPLOYEES E ON ( EID = DEID )
+	JOIN DOCTORS D USING ( EID )
+	JOIN DOC_DEGREES DD USING ( EID )
+	JOIN HOSPITALS H USING ( HID )
     `;
     const binds = {
-      APPT_ID:req.body.APPT_ID
+        APPT_ID: req.body.APPT_ID
     }
     //console.log(req.body.APPT_ID);
     let result = await database.execute(sql, binds);
     //console.log(result);
     res.json(result.rows);
-  }
+}
 
-
-async function getTestResults(req,res){
+// join LABORATORIES USING Labid???? need to fix => labid -> labname i hope it fixes
+async function getTestResults(req, res) {
     const sql = `
-    SELECT DISTINCT TEST_NAME, TO_CHAR(TEST_DATE,'DD-MON-YYYY') TEST_DATE, RESULTS, LABNAME, FIRST_NAME||' '||LAST_NAME LAB_ASST_NAME, HOSPITAL_NAME, BRANCH, H.PHONE HOSPITAL_PHONE, APPTID, TO_CHAR(APPT_DATE,'DD-MON-YYYY') APPT_DATE, APPT_TIME
+    SELECT DISTINCT
+	TEST_NAME,
+	TO_CHAR( TEST_DATE, 'DD-MON-YYYY' ) TEST_DATE,
+	RESULTS,
+	LABNAME,
+	FIRST_NAME || ' ' || LAST_NAME LAB_ASST_NAME,
+	HOSPITAL_NAME,
+	BRANCH,
+	H.PHONE HOSPITAL_PHONE,
+	APPTID,
+	TO_CHAR( APPT_DATE, 'DD-MON-YYYY' ) APPT_DATE,
+	APPT_TIME 
     FROM
-    (SELECT APPTID, APPT_DATE, APPT_TIME
-    FROM APPOINTMENTS
-    WHERE PID = :PID) T1
-    JOIN TEST_RESULTS USING (APPTID)
-    JOIN LAB_ASSISTANTS USING (EID)
-    JOIN EMPLOYEES USING (EID)
-    JOIN HOSPITALS H USING (HID)
-    JOIN LABORATORIES USING (LABID)
-    ORDER BY TEST_DATE DESC, APPTID DESC
+	( SELECT APPTID, APPT_DATE, APPT_TIME FROM APPOINTMENTS WHERE PID = : PID ) T1
+	JOIN TEST_RESULTS USING ( APPTID )
+	JOIN LAB_ASSISTANTS USING ( EID )
+	JOIN EMPLOYEES USING ( EID )
+	JOIN HOSPITALS H USING ( HID )
+	JOIN LABORATORIES USING ( LABNAME ) 
+    ORDER BY
+	TEST_DATE DESC,
+	APPTID DESC
     `;
     const binds = {
-      PID: req.body.PID
+        PID: req.body.PID
     }
-  
+
     // console.log(req.body.PID);
     let result = await database.execute(sql, binds);
     //console.log(result);
     res.json(result.rows);
 }
 
-
-async function getSingleTestResult(req,res){
+// join LABORATORIES USING Labid???? need to fix => labid -> labname i hope it fixes
+async function getSingleTestResult(req, res) {
     const sql = `
-    SELECT DISTINCT HOSPITAL_NAME, BRANCH, H.PHONE HOSPITAL_PHONE, TEST_NAME, TO_CHAR(TEST_DATE,'DD-MON-YYYY') TEST_DATE, RESULTS, LABNAME, E.FIRST_NAME||' '||E.LAST_NAME LAB_ASST_NAME, P.FIRST_NAME||' '||P.LAST_NAME PATIENT_NAME, GET_AGE(P.DOB) AGE, P.BLOOD_GROUP, P.PHONE, APPTID, TO_CHAR(APPT_DATE,'DD-MON-YYYY') APPT_DATE, APPT_TIME
+    SELECT DISTINCT
+	HOSPITAL_NAME,
+	BRANCH,
+	H.PHONE HOSPITAL_PHONE,
+	TEST_NAME,
+	TO_CHAR( TEST_DATE, 'DD-MON-YYYY' ) TEST_DATE,
+	RESULTS,
+	LABNAME,
+	E.FIRST_NAME || ' ' || E.LAST_NAME LAB_ASST_NAME,
+	P.FIRST_NAME || ' ' || P.LAST_NAME PATIENT_NAME,
+	GET_AGE ( P.DOB ) AGE,
+	P.BLOOD_GROUP,
+	P.PHONE,
+	APPTID,
+	TO_CHAR( APPT_DATE, 'DD-MON-YYYY' ) APPT_DATE,
+	APPT_TIME 
     FROM
-    (SELECT *
-    FROM TEST_RESULTS
-    WHERE APPTID = :APPT_ID
-    AND TEST_NAME = :TEST_NAME) T1
-    JOIN
-    APPOINTMENTS A USING (APPTID)
-    JOIN PATIENTS P USING (PID)
-    JOIN EMPLOYEES E USING (EID)
-    JOIN HOSPITALS H USING (HID)
-    JOIN LAB_ASSISTANTS LA USING (EID)
-    JOIN LABORATORIES L USING (LABID)
+	( SELECT * FROM TEST_RESULTS WHERE APPTID = : APPT_ID AND TEST_NAME = : TEST_NAME ) T1
+	JOIN APPOINTMENTS A USING ( APPTID )
+	JOIN PATIENTS P USING ( PID )
+	JOIN EMPLOYEES E USING ( EID )
+	JOIN HOSPITALS H USING ( HID )
+	JOIN LAB_ASSISTANTS LA USING ( EID )
+	JOIN LABORATORIES L USING ( LABNAME )
     `;
     const binds = {
-      APPT_ID:req.body.APPT_ID,
-      TEST_NAME:req.body.TEST_NAME
+        APPT_ID: req.body.APPT_ID,
+        TEST_NAME: req.body.TEST_NAME
     }
     //console.log(req.body.APPT_ID);
     //console.log(req.body.TEST_NAME);
     let result = await database.execute(sql, binds);
     //console.log(result);
+    res.json(result.rows);
+}
+
+async function getMedNames(req,res){
+    const sql = `
+        SELECT MEDNAME FROM DISPENSARY
+    `;
+    const binds = {
+   
+    }
+
+    let result = await database.execute(sql, binds);
+    console.log(result);
     res.json(result.rows);
 }
 
@@ -250,5 +316,6 @@ module.exports = {
     getSinglePrescription,
     getTestResults,
     getSingleTestResult,
-    getDoctorSingleTestResult
+    getDoctorSingleTestResult,
+    getMedNames
 }

@@ -41,10 +41,49 @@ async function add() {
       bloodGroupErr.style.display = "block";
     }
   } else {
+    console.log("jfdjhgdjhgf");
+    let flag = confirm("Are You sure about adding this bag?");
+    if (flag) {
+      let info = {
+        DONOR_NAME: name,
+        DNID: nid,
+        BLOOD_GROUP: bloodGroup,
+        EID:localStorage.getItem('EID'),
+        HID:localStorage.getItem('HID')
+      };
+      let result = await fetch(
+        "http://localhost:4200/receptionist/addDonor",
+        {
+          method: "POST",
+          body: JSON.stringify(info),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      result = await result.json();
+      if (result.success) {
+        window.location.replace("http://localhost:4200/receptionist/addBlood");
+      }
+    }
   }
 }
 
 async function start() {
+  let result = await fetch(
+    "http://localhost:4200/receptionist/getBloodGroups",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  result = await result.json();
+  let optionStr="";
+  for(let i=0; i<result.length;i++){
+    optionStr += `<option value="${result[i].BLOOD_GROUP}">${result[i].BLOOD_GROUP}</option>`;
+  }
   let div1 = document.getElementById("insert");
   div1.innerHTML = "";
   div1.innerHTML = `
@@ -71,8 +110,7 @@ async function start() {
                 <label style="color: #098927" for="bloodGroup">Blood Group</label>
                 <select id="bloodGroup" style="color: #098927" class="form-control border-success" id="bloodGroup">
                     <option selected disabled>Select</option>
-                    <option value="A+">A+</option>
-                    <option value="B+">B+</option>
+                    ${optionStr}
                 </select>
                 <p id="bloodGroupErr" style="color:red;display:none">Select the above option correctly</p>
             </div>

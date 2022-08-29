@@ -10,8 +10,9 @@ const path = require('path');
 /*
 Importing Internal Dependencies
 */
-const {getReceptionistBloodGiveaway,getReceptionistAddBlood,getReceptionistBloodBank,getConfirmAppointment ,getCancelAppointment, getAppointments, getReceptionistApproveAppointments, getReceptionistHome} = require('../controller/receptionistController');
+const {getBloodGroups,addDonor,bloodGiveaway,getBloodBags,getBloodBankCount,getReceptionistBloodGiveaway,getReceptionistAddBlood,getReceptionistBloodBank,getConfirmAppointment ,getCancelAppointment, getAppointments, getReceptionistApproveAppointments, getReceptionistHome} = require('../controller/receptionistController');
 const decorateHTMLResponse = require("../middlewares/common-middlewares/decorateHTMLResponse");
+const { route } = require('./loginRouter');
 
 
 /*
@@ -37,9 +38,19 @@ router.get("/bloodBank",decorateHTMLResponse("Blood Bank"),getReceptionistBloodB
 router.get("/addBlood",decorateHTMLResponse("Add Blood"),getReceptionistAddBlood);
 router.get("/giveaway",decorateHTMLResponse("Blood Giveaway"),getReceptionistBloodGiveaway);
 
+/*
+    GET JSON response
+*/
+router.get("/getBloodBagCount",getBloodBankCount);
+router.get("/getBloodGroups",getBloodGroups);
+
+
 router.post('/getAppointments',getAppointments);
 router.post('/confirmAppointment',getConfirmAppointment);
 router.post('/cancelAppointment',getCancelAppointment);
+router.post("/getBloodBags",getBloodBags);
+router.post("/bloodGiveaway",bloodGiveaway);
+router.post("/addDonor",addDonor);
 
 
 

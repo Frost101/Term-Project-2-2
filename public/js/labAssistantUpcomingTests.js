@@ -18,7 +18,8 @@ settingName();
 
 async function search(){
     let info = {
-        LABID:localStorage.getItem('LABID')
+        LABNAME:localStorage.getItem('LABNAME'),
+        HID:localStorage.getItem('HID')
       };
       let result = await fetch("http://localhost:4200/labAssistant/getTests", {
           method: "POST",

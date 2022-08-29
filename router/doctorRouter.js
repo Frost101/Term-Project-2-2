@@ -11,7 +11,7 @@ const path = require('path');
 Importing Internal Dependencies
 */
 const decorateHTMLResponse = require("../middlewares/common-middlewares/decorateHTMLResponse");
-const {getDoctorSingleTestResult,getSingleTestResult,getTestResults,getSinglePrescription,getDoctorPatientPrescription,getAppointmentHistory,uploadPrescription,getTestNames,getSingleAppointment,getDoctorGivePrescription,getAppointments,getDoctorHome,getDoctorPatientHistory,getDoctorEditPrescription,getUpcomingAppointments,getDoctorTestResults} = require('../controller/doctorController');
+const {getMedNames,getDoctorSingleTestResult,getSingleTestResult,getTestResults,getSinglePrescription,getDoctorPatientPrescription,getAppointmentHistory,uploadPrescription,getTestNames,getSingleAppointment,getDoctorGivePrescription,getAppointments,getDoctorHome,getDoctorPatientHistory,getDoctorEditPrescription,getUpcomingAppointments,getDoctorTestResults} = require('../controller/doctorController');
 
 
 /*
@@ -39,6 +39,12 @@ router.get('/testResults',decorateHTMLResponse('Test Results'),getDoctorTestResu
 router.get('/givePrescription',decorateHTMLResponse('Give Prescription'),getDoctorGivePrescription);
 router.get('/patientPrescription',decorateHTMLResponse('Prescription'),getDoctorPatientPrescription);
 router.get('/singleTestResult',decorateHTMLResponse('Test Result'),getDoctorSingleTestResult);
+
+
+/*
+GET JSON response
+*/
+router.get("/getMedNames",getMedNames);
 
 router.post('/getAppointments',getAppointments);
 router.post('/getSingleAppointment',getSingleAppointment);

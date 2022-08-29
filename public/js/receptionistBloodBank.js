@@ -15,36 +15,46 @@ function settingName() {
 
 settingName();
 
-function addBlood(name){
- localStorage.setItem('Blood_Group',name);
+function addBlood(ref){
+  localStorage.setItem('Blood_Group', ref.parentNode.childNodes[1].innerText);
  window.location.replace("http://localhost:4200/receptionist/addBlood");
 }
 
-function giveaway(name){
-  localStorage.setItem('Blood_Group',name);
-  window.location.replace("http://localhost:4200/receptionist/giveaway");
+function giveaway(ref){
+
+  localStorage.setItem('Blood_Group', ref.parentNode.childNodes[1].innerText);
+ window.location.replace("http://localhost:4200/receptionist/giveaway");
 }
 
 async function start() {
+  
+  let result = await fetch("http://localhost:4200/receptionist/getBloodBagCount", {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  result = await result.json();
   let div1 = document.getElementById("insert");
   div1.innerHTML = "";
-  for(let i=1; i<=8; i++){
+  for(let i=0; i<result.length; i++){
     div1.innerHTML += `
         <div class="card text-white bg-success mb-3" style="max-width: 60rem;">
         <div class="card-header">
           <div class="row">
               <div class="col-sm-4">
-              <p style="color:white"><i>Blood Group:</i> B+</p>
+              <p style="color:white"><i>Blood Group:</i> ${result[i].BLOOD_GROUP}</p>
               </div>
               <div class="col-sm-4">
-              <p style="color:white"><i>Currently Available:</i> 5 bags</p>
+              <p style="color:white"><i>Currently Available:</i> ${result[i].COUNT} bags</p>
               </div>
               <div class="col-sm-1">
               </div>
               <div class="col-sm-3">
               <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" onclick="addBlood()"class="btn btn-danger">Add Blood</button>
-                <button type="button" onclick="giveaway()"class="btn btn-dark">Giveaway</button>
+                <p hidden>${result[i].BLOOD_GROUP}</p>
+                <button type="button" onclick="addBlood(this)"class="btn btn-danger">Add Blood</button>
+                <button type="button" onclick="giveaway(this)"class="btn btn-dark">Giveaway</button>
               </div>
               </div>
               

@@ -58,6 +58,7 @@ let login = async function (email, password) {
     localStorage.setItem('EID',result.EID);
     localStorage.setItem('NAME',result.NAME);
     localStorage.setItem('HID',result.HID);
+    localStorage.setItem('LABNAME', result.LABNAME);
     window.location.replace("http://localhost:4200/receptionist/home");
   }
   else{

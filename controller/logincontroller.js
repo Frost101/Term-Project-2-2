@@ -71,11 +71,20 @@ function getLoginReceiptionist(req, res, next) {
 
 async function doLoginReceptionist(req, res) {
   const sql = `
-  SELECT EID, FIRST_NAME ||' '|| LAST_NAME AS NAME, GENDER, ADDRESS, E.PHONE AS PHONE, E.EMAIL AS EMAIL, HID 
-  FROM EMPLOYEES E 
-  JOIN HOSPITALS H USING (HID) 
-  WHERE E.EMAIL = :email
-  AND PASSWORD = :password  
+  SELECT
+	EID,
+	FIRST_NAME || ' ' || LAST_NAME AS NAME,
+	GENDER,
+	ADDRESS,
+	PHONE,
+	EMAIL,
+	HID 
+  FROM
+	EMPLOYEES E
+	JOIN RECEPTIONISTS R USING ( EID ) 
+  WHERE
+	E.EMAIL = : email 
+	AND PASSWORD = : password
     `;
   const binds = {
     email: req.body.email,
@@ -123,12 +132,22 @@ function getLoginLabAssistant(req, res, next) {
 
 async function doLoginLabAssistant(req, res) {
   const sql = `
-    SELECT EID, FIRST_NAME || ' ' || LAST_NAME NAME, GENDER, ADDRESS, GET_AGE(DOB) AGE, PHONE, EMAIL, HID, LABID
-    FROM EMPLOYEES
-    JOIN LAB_ASSISTANTS USING (EID)
-    WHERE VERIFIED = 'Y'
-    AND EMAIL = :email
-    AND PASSWORD = :password
+  SELECT
+	EID,
+	FIRST_NAME || ' ' || LAST_NAME NAME,
+	GENDER,
+	ADDRESS,
+	GET_AGE ( DOB ) AGE,
+	PHONE,
+	EMAIL,
+	HID,
+	LABNAME 
+  FROM
+	EMPLOYEES
+	JOIN LAB_ASSISTANTS USING ( EID ) 
+  WHERE
+	EMAIL = : email 
+	AND PASSWORD = : password
     `;
   const binds = {
     email: req.body.email,
@@ -148,7 +167,7 @@ async function doLoginLabAssistant(req, res) {
       EID: result.rows[0].EID,
       NAME: result.rows[0].NAME,
       HID: result.rows[0].HID,
-      LABID: result.rows[0].LABID,
+      LABNAME: result.rows[0].LABNAME,
       success: true,
     };
 
@@ -177,10 +196,12 @@ function getLoginPatient(req, res, next) {
 
 async function doLoginPatient(req, res) {
   const sql = `
-          SELECT *
-          FROM PATIENTS
-          WHERE EMAIL = :email
-          AND PASSWORD = :password`;
+    SELECT *
+    FROM PATIENTS
+    WHERE 
+    EMAIL = :email
+    AND PASSWORD = :password
+    `;
   const binds = {
     email: req.body.email,
     password: req.body.password,
@@ -227,12 +248,24 @@ function getLoginDoctor(req, res, next) {
 
 async function doLoginDoctor(req, res) {
   const sql = `
-  SELECT EID, FIRST_NAME ||' ' ||LAST_NAME NAME, GENDER, E.PHONE, E.EMAIL, HID, HOSPITAL_NAME, BRANCH, SPECIALITY, FEES, WID 
-  FROM EMPLOYEES E 
-  JOIN DOCTORS D USING (EID) 
-  JOIN HOSPITALS H USING (HID) 
-  WHERE E.EMAIL = :email 
-  AND E.PASSWORD = :password
+  SELECT
+	EID,
+	FIRST_NAME || ' ' || LAST_NAME NAME,
+	GENDER,
+	E.PHONE,
+	E.EMAIL,
+	HID,
+	HOSPITAL_NAME,
+	BRANCH,
+	WARD_NAME SPECIALITY,
+	FEES
+  FROM
+	EMPLOYEES E
+	JOIN DOCTORS D USING ( EID )
+	JOIN HOSPITALS H USING ( HID ) 
+  WHERE
+	E.EMAIL = : email 
+	AND E.PASSWORD = : password
     `;
   const binds = {
     email: req.body.email,

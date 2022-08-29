@@ -172,7 +172,7 @@ function addTest(ref) {
   //console.log(testArr);
   let parent = document.getElementById(ref.innerText).parentElement;
   let child = document.getElementById(ref.innerText);
-  parent.removeChild(child);
+  //parent.removeChild(child);
   let selectedTests = document.getElementById('selectedTests');
   selectedTests.style.display = "block"
   selectedTests.innerHTML += `<p class="mouse" onclick="removeTest(this)">${ref.innerText}</p>`;
@@ -181,6 +181,19 @@ function addTest(ref) {
 
 
 async function test(result) {
+
+    let temp = await fetch("http://localhost:4200/doctor/getMedNames", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    temp = await temp.json();
+    let medStr = "";
+    for(let i=0; i<temp.length; i++){
+      medStr+=`<option value="${temp[i].MEDNAME}">`;
+    }
+
     let div1 = document.getElementById("insert");
     div1.innerHTML="";
   
@@ -227,11 +240,7 @@ async function test(result) {
             <label for="brow"><b>Required Medicines</b></label></br>
             <input list="brow" style="border-radius: 5px;"  id = "medicine">
             <datalist id="brow">
-              <option value="Internet Explorer">
-              <option value="Firefox">
-              <option value="Chrome">
-              <option value="Opera">
-              <option value="Safari">
+                ${medStr}
             </datalist> 
             <p style="color:white">Take After</p>
             <div class="form-check form-switch">
