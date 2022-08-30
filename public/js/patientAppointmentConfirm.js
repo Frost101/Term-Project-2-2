@@ -41,54 +41,49 @@ async function getDoctor() {
         </label>
       </div>`;
   }
-  let date = new Date();
-  let date1 = "";
-  let date2 = "";
-  let date3 = "";
 
-  let today = new Date();
-  date1 += today.getFullYear() + "-";
-  today.setMonth(today.getMonth() + 1);
-  if (today.getMonth().toString().length == 1) {
-    date1 += "0" + today.getMonth() + "-";
-  } else {
-    date1 += today.getMonth() + "-";
-  }
-  if (today.getDate().toString().length == 1) {
-    date1 += "0" + today.getDate();
-  } else {
-    date1 += today.getDate();
-  }
+  let Date1 = new Date();
+  let Date2 = new Date();
+  let Date3 = new Date();
+  Date2.setDate(Date1.getDate() + 1);
+  Date3.setDate(Date1.getDate() + 2);
+  let date1 = '', date1fy, date1fm, date1fd;
+  let date2 = '', date2fy, dat21fm, date2fd;
+  let date3 = '', date3fy, date3fm, date3fd;
 
-  let tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  date2 += tomorrow.getFullYear() + "-";
-  tomorrow.setMonth(tomorrow.getMonth() + 1);
-  if (tomorrow.getMonth().toString().length == 1) {
-    date2 += "0" + tomorrow.getMonth() + "-";
-  } else {
-    date2 += tomorrow.getMonth() + "-";
+  date1fy = Date1.getFullYear();
+  date1fm = (Date1.getMonth() + 1).toString();
+  if(date1fm.length == 1) {
+    date1fm = '0' + date1fm;
   }
-  if (tomorrow.getDate().toString().length == 1) {
-    date2 += "0" + tomorrow.getDate();
-  } else {
-    date2 += tomorrow.getDate();
+  date1fd = Date1.getDate().toString();
+  if(date1fd.length == 1) {
+    date1fd = '0' + date1fd;
   }
+  date1 = `${date1fy}-${date1fm}-${date1fd}`;
 
-  tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 2);
-  date3 += tomorrow.getFullYear() + "-";
-  tomorrow.setMonth(tomorrow.getMonth() + 1);
-  if (tomorrow.getMonth().toString().length == 1) {
-    date3 += "0" + tomorrow.getMonth() + "-";
-  } else {
-    date3 += tomorrow.getMonth() + "-";
+  date2fy = Date2.getFullYear();
+  date2fm = (Date2.getMonth() + 1).toString();
+  if(date2fm.length == 1) {
+    date2fm = '0' + date2fm;
   }
-  if (tomorrow.getDate().toString().length == 1) {
-    date3 += "0" + tomorrow.getDate();
-  } else {
-    date3 += tomorrow.getDate();
+  date2fd = Date2.getDate().toString();
+  if(date2fd.length == 1) {
+    date2fd = '0' + date2fd;
   }
+  date2 = `${date2fy}-${date2fm}-${date2fd}`;
+
+  date3fy = Date3.getFullYear();
+  date3fm = (Date3.getMonth() + 1).toString();
+  if(date3fm.length == 1) {
+    date3fm = '0' + date3fm;
+  }
+  date3fd = Date3.getDate().toString();
+  if(date3fd.length == 1) {
+    date3fd = '0' + date3fd;
+  }
+  date3 = `${date3fy}-${date3fm}-${date3fd}`;
+
 
   let radioBoxDate = "";
   radioBoxDate += `<div class="form-check">

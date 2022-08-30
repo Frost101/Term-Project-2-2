@@ -10,7 +10,7 @@ const path = require('path');
 /*
 Importing Internal Dependencies
 */
-const {getSpeciality,getAmbulances,getAmbulanceType,getBranch,getSingleTestResult,getTestResultHistory,getSinglePrescription,getAppointmentHistory,getPatientTestResult,getPrescription,getUpcomingAppointments,getBookAppointment,getDoctorConfirm, getPatientHome,getPatientAppointments,getPatientAppointmentsHistory,getPatientHireAmbulance,getPatientHireNurse,getPatientTest,getPatientUpcomingAppointments,getDoctor,getPatientAppointmentConfirm} = require('../controller/patientController');
+const {getDues,dues,getSpeciality,getAmbulances,getAmbulanceType,getBranch,getSingleTestResult,getTestResultHistory,getSinglePrescription,getAppointmentHistory,getPatientTestResult,getPrescription,getUpcomingAppointments,getBookAppointment,getDoctorConfirm, getPatientHome,getPatientAppointments,getPatientAppointmentsHistory,getPatientHireAmbulance,getPatientHireNurse,getPatientTest,getPatientUpcomingAppointments,getDoctor,getPatientAppointmentConfirm} = require('../controller/patientController');
 const decorateHTMLResponse = require("../middlewares/common-middlewares/decorateHTMLResponse");
 
 
@@ -39,6 +39,7 @@ router.get("/upcomingAppointments",decorateHTMLResponse("Upcoming Appointments")
 router.get("/confirmAppointment",decorateHTMLResponse('Confirm Appointment'), getPatientAppointmentConfirm);
 router.get('/prescription',decorateHTMLResponse('Prescription'),getPrescription);
 router.get("/testResult",decorateHTMLResponse('Test Result'),getPatientTestResult);
+router.get("/dues",decorateHTMLResponse("Dues"),dues);
 
 /*
     GET JSON response
@@ -57,6 +58,7 @@ router.post("/getPrescription",getSinglePrescription);
 router.post("/getTestResultHistory",getTestResultHistory);
 router.post("/getTestResult",getSingleTestResult);
 router.post("/getAmbulances",getAmbulances);
+router.post("/getDues",getDues);
 
 
 

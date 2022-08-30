@@ -60,8 +60,9 @@ async function start(){
   }
   }
   else{
-    let h1 = document.createElement('h1');
-    h1.innerText = 'No Apointment request  Available';
+    let div1 = document.getElementById("insert");
+    div1.innerHTML="";
+    div1.innerHTML = `<h1 style="color:red">No Appointment Request Found.....</h1>`;
   }
 }
 

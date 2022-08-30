@@ -293,7 +293,7 @@ async function getMedNames(req,res){
     }
 
     let result = await database.execute(sql, binds);
-    console.log(result);
+    //console.log(result);
     res.json(result.rows);
 }
 

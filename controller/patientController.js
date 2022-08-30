@@ -50,6 +50,10 @@ function getPatientTestResult(req, res, next) {
   res.render('patientTestResult');
 }
 
+function dues(req,res,next){
+  res.render('patientDues');
+}
+
 async function getDoctor(req, res) {
   const sql = `
   DECLARE 
@@ -481,6 +485,40 @@ async function getSpeciality(req, res) {
   res.json(result.rows);
 }
 
+async function getDues(req,res){
+  const sql = `
+        SELECT *
+        FROM APT_TEST_BILLS_DUE
+        WHERE PID = :PID
+    `;
+    const binds = {
+        PID:req.body.PID
+    };
+
+
+    let result = await database.execute(sql, binds);
+
+    const sql2 = `
+        SELECT *
+        FROM BEDS_BILLS_DUE
+        WHERE PID = :PID
+    `;
+    const binds2 = {
+        PID:req.body.PID
+    };
+
+
+    let result2 = await database.execute(sql2, binds2);
+
+    //console.log(result);
+    //console.log(result2);
+    let newObj = {
+        result : result.rows,
+        result2 : result2.rows
+    };
+    res.json(newObj);
+}
+
 /*
 Export
 */
@@ -506,5 +544,7 @@ module.exports = {
   getAmbulanceType,
   getBranch,
   getAmbulances,
-  getSpeciality
+  getSpeciality,
+  dues,
+  getDues
 };
