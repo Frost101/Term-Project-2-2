@@ -12,6 +12,39 @@ let doctorSignUpInfo = {
 };
 
 
+async function start(){
+  
+  let result = await fetch("http://localhost:4200/reg/getDocSpeciality", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      result = await result.json();
+  let specialityStr = "";
+  for(let i=0; i<result.length; i++){
+    specialityStr += `  <option value="${result[i].SPECIALITY}">${result[i].SPECIALITY}</option>`
+  }
+  let div1 = document.getElementById('specialityDiv');
+  div1.innerHTML = "";
+  div1.innerHTML += `<label for="exampleFormControlInput4" class="form-label"
+        style="color:#3ca507;">Speciality</label>
+      <select id="speciality" class="form-select form-select-sm border-success"
+        aria-label=".form-select-sm example" required>
+        <option selected disabled>Select</option>
+        ${specialityStr}
+        </select>
+        <div class="invalid-feedback">
+            Please Provide a valid Speciality
+        </div>
+
+  `;
+
+}
+
+start();
+
+
 (async function () {
   "use strict";
 
@@ -159,18 +192,19 @@ let doctorSignUpInfo = {
             doctorSignUpInfo.age = age;
           }
 
-          let degrees = new Set();
+          let degrees = []
           let degreeElem = document.getElementById('degreeDiv');
           for (let i = 1; i < degreeElem.childElementCount; i++) {
-            degrees.add(degreeElem.children[i].children[1].value);
+            degrees.push(degreeElem.children[i].children[1].value);
           }
 
-          if (degrees.size < 1) {
+          if (degrees.length < 1) {
             good = false;
             alert('Not enough Degrees');
           }
 
           else {
+            // degrees = Array.from(degrees);
             doctorSignUpInfo.degrees = degrees;
           }
 
@@ -209,9 +243,15 @@ let login = async function (doctorSignUpInfo) {
     },
   });
   result = await result.json();
-  if (result.success) {
-    alert('Your registration request is being processed.Please wait for the confirmation email...');
-     window.location.replace("http://localhost:4200/");
+  if(result.success) {
+    let flag = confirm('Your Registration is pending. Please wait for admin approval by checking your email.');
+    if(flag) {
+      window.location.replace("http://localhost:4200/");
+    }
+  }
+  else {
+    console.log(result);
+    alert(`${result.message}`);
   }
 };
 

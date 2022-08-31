@@ -10,7 +10,7 @@ const path = require('path');
 /*
 Importing Internal Dependencies
 */
-const {doRegReceptionist,doRegLabAssistant,doRegDoctor,getRegDoctor,getRegPatient,getRegReceptionist,getRegLabAssistant,doRegPatient} = require('../controller/regcontroller');
+const {getLabName,getDocSpeciality,doRegReceptionist,doRegLabAssistant,doRegDoctor,getRegDoctor,getRegPatient,getRegReceptionist,getRegLabAssistant,doRegPatient} = require('../controller/regcontroller');
 const decorateHTMLResponse = require("../middlewares/common-middlewares/decorateHTMLResponse");
 
 /*
@@ -32,6 +32,12 @@ router.get("/regPatient",decorateHTMLResponse('Reg Patient'),getRegPatient);
 router.get("/regDoctor",decorateHTMLResponse("Reg Doctor"),getRegDoctor);
 router.get("/regReceptionist",decorateHTMLResponse("Reg Receptionist"),getRegReceptionist);
 router.get("/regLabAssistant",decorateHTMLResponse("Reg LabAssistant"),getRegLabAssistant);
+
+/*
+GET json response
+*/
+router.get("/getDocSpeciality",getDocSpeciality);
+router.get("/getLabName",getLabName);
 
 
 router.post("/doRegPatient",doRegPatient);

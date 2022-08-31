@@ -12,6 +12,38 @@ let labAssistantSignUpInfo = {
 };
 
 
+async function start(){
+  
+  let result = await fetch("http://localhost:4200/reg/getLabName", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      result = await result.json();
+  let labnameStr = "";
+  for(let i=0; i<result.length; i++){
+    labnameStr += `  <option value="${result[i].LABNAME}">${result[i].LABNAME}</option>`
+  }
+  let div1 = document.getElementById('labDiv');
+  div1.innerHTML = "";
+  div1.innerHTML += `
+      <label for="exampleFormControlInput4" class="form-label" style="color:#3ca507;">Laboratory</label>
+      <select id="lab" class="form-select form-select-sm border-success"
+          aria-label=".form-select-sm example" required>
+          <option selected disabled>Select</option>
+          ${labnameStr}           
+      </select>
+      <div class="invalid-feedback">
+          Please Provide a valid Laboratory Name
+      </div>
+  `;
+
+}
+
+start();
+
+
 (async function () {
   "use strict";
 
@@ -175,9 +207,15 @@ let login = async function (labAssistantSignUpInfo) {
     },
   });
   result = await result.json();
-  if (result.success) { 
-    alert('Your registration request is being processed.Please wait for the confirmation email...');
-    window.location.replace("http://localhost:4200/"); 
+  if(result.success) {
+    let flag = confirm('Your Registration is pending. Please wait for admin approval by checking your email.');
+    if(flag) {
+      window.location.replace("http://localhost:4200/");
+    }
+  }
+  else {
+    console.log(result);
+    alert(`${result.message}`);
   }
 };
 

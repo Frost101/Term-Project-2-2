@@ -169,10 +169,19 @@ let login = async function (patientSignUpInfo) {
     },
   });
   result = await result.json();
-  if (result.success) { 
-    alert('Your registration request is being processed.Please wait for the confirmation email...');
-    window.location.replace("http://localhost:4200/");
-   }
+  // result = JSON.stringify(result);
+  if(result.success) {
+    let flag = confirm('Your Registration has been completed. Login with your credentials.');
+    if(flag) {
+      window.location.replace("http://localhost:4200/");
+    }
+  }
+  else {
+    console.log(result);
+    alert(`${result.message}`);
+  }
+  // let msg = JSON.stringify(msgJson);
+  // if (msg === '"Successful"') { window.location.replace("http://localhost:4200/test1"); }
 };
 
 let button = document.getElementById("submitButton");

@@ -11,7 +11,7 @@ const path = require('path');
 Importing Internal Dependencies
 */
 const decorateHTMLResponse = require("../middlewares/common-middlewares/decorateHTMLResponse");
-const {getAdminHome,getAdminApproveDoctor,getAdminApproveReceptionist,getAdminApproveLabAssistant} = require("../controller/adminController");
+const {getUnLabAssistant,getUnLabAssistantSingle,doLabAssistantApprove,doDoctorApprove,getUnDoctorSingle,getUnDoctors,getAdminHome,getAdminApproveDoctor,getAdminApproveReceptionist,getAdminApproveLabAssistant} = require("../controller/adminController");
 
 /*
 Creating a router
@@ -34,6 +34,13 @@ router.get('/approveDoctor',decorateHTMLResponse("Approve Doctor"),getAdminAppro
 router.get('/approveReceptionist',decorateHTMLResponse("Approve Receptionist"),getAdminApproveReceptionist);
 router.get('/approveLabAssistant',decorateHTMLResponse("Approve Lab Assistant"),getAdminApproveLabAssistant);
 
+
+router.post("/getUnDoctors",getUnDoctors);
+router.post("/getUnDoctorSingle",getUnDoctorSingle);
+router.post("/doDoctorApprove",doDoctorApprove);
+router.post("/getUnLabAssistant",getUnLabAssistant);
+router.post("/getUnLabAssistantSingle",getUnLabAssistantSingle);
+router.post("/doLabAssistantApprove",doLabAssistantApprove);
 
 /*
 Export

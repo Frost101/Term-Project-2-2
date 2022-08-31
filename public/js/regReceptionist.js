@@ -169,9 +169,15 @@ let login = async function (receptionistSignUpInfo) {
     },
   });
   result = await result.json();
-  if (result.success) { 
-    alert('Your registration request is being processed.Please wait for the confirmation email...');
-    window.location.replace("http://localhost:4200/"); 
+  if(result.success) {
+    let flag = confirm('Your Registration is pending. Please wait for admin approval by checking your email.');
+    if(flag) {
+      window.location.replace("http://localhost:4200/");
+    }
+  }
+  else {
+    console.log(result);
+    alert(`${result.message}`);
   }
 };
 
