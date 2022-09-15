@@ -33,7 +33,7 @@ async function search(){
         if(result.length==0){
           let div1 = document.getElementById("insert");
           div1.innerHTML="";
-          alert('No Appointments Found!');
+          alert('No Upcoming Tests Found!');
         }
         else{
           test(result);

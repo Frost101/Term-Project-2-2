@@ -32,7 +32,7 @@ async function search(){
         if(result.length==0){
           let div1 = document.getElementById("insert");
           div1.innerHTML="";
-          alert('No Appointment History Found!');
+          alert('No Test Result Found!');
         }
         else{
           test(result);
